@@ -1,0 +1,47 @@
+.my-tickets-page {
+    min-height: 100vh;
+    background: var(--background-primary);
+    padding: 2rem 0;
+}
+
+.tickets-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.tickets-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tickets-search {
+    max-width: 500px;
+}
+
+.tickets-loading {
+    display: flex;
+    justify-content: center;
+    padding: 4rem;
+}
+
+.tickets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tickets-container {
+        padding: 0 1rem;
+    }
+
+    .tickets-grid {
+        grid-template-columns: 1fr;
+    }
+}

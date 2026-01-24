@@ -1,222 +1,265 @@
-import api from './api';
+import { apiClient } from './api';
 
 const adminService = {
-    // === USER MANAGEMENT ===
-    getAllUsers: async (page = 0, size = 20, sort = 'createdAt,desc') => {
+    // ========== EVENT MANAGEMENT ==========
+
+    // Create event
+    createEvent: async (eventData) => {
         try {
-            const response = await api.get(`/admin/users?page=${page}&size=${size}&sort=${sort}`);
-            return { success: true, data: response.data };
+            return await apiClient.post('/api/admin/events', eventData);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to fetch users.',
+                error: error.message || 'Event creation failed',
             };
         }
     },
 
-    getUserById: async (userId) => {
+    // Update event
+    updateEvent: async (eventId, eventData) => {
         try {
-            const response = await api.get(`/admin/users/${userId}`);
-            return { success: true, data: response.data };
+            return await apiClient.put(`/api/admin/events/${eventId}`, eventData);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to fetch user details.',
+                error: error.message || 'Event update failed',
             };
         }
     },
 
-    updateUserRole: async (userId, role) => {
+    // Delete event
+    deleteEvent: async (eventId) => {
         try {
-            const response = await api.put(`/admin/users/${userId}/role`, { role });
-            return { success: true, data: response.data };
+            return await apiClient.delete(`/api/admin/events/${eventId}`);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to update user role.',
+                error: error.message || 'Event deletion failed',
             };
         }
     },
 
-    suspendUser: async (userId, reason) => {
-        try {
-            const response = await api.put(`/admin/users/${userId}/suspend`, { reason });
-            return { success: true, data: response.data };
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || 'Failed to suspend user.',
-            };
-        }
-    },
+    // ========== BOOKING MANAGEMENT ==========
 
-    // === BOOKING MANAGEMENT ===
+    // Get all bookings
     getAllBookings: async (filters = {}) => {
         try {
             const params = new URLSearchParams();
+
             if (filters.status) params.append('status', filters.status);
             if (filters.startDate) params.append('startDate', filters.startDate);
             if (filters.endDate) params.append('endDate', filters.endDate);
-            if (filters.page) params.append('page', filters.page);
-            if (filters.size) params.append('size', filters.size);
+            if (filters.eventId) params.append('eventId', filters.eventId);
 
-            const response = await api.get(`/admin/bookings?${params.toString()}`);
-            return { success: true, data: response.data };
+            params.append('page', filters.page || 0);
+            params.append('size', filters.size || 50);
+
+            return await apiClient.get(`/api/admin/bookings?${params.toString()}`);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to fetch bookings.',
+                error: error.message || 'Failed to fetch bookings',
             };
         }
     },
 
+    // Update booking status
     updateBookingStatus: async (bookingId, status, notes = '') => {
         try {
-            const response = await api.put(`/admin/bookings/${bookingId}/status`, { status, notes });
-            return { success: true, data: response.data };
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || 'Failed to update booking status.',
-            };
-        }
-    },
-
-    // === EVENT MANAGEMENT ===
-    createEvent: async (eventData) => {
-        try {
-            const response = await api.post('/admin/events', eventData);
-            return { success: true, data: response.data };
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || 'Failed to create event.',
-            };
-        }
-    },
-
-    updateEvent: async (eventId, eventData) => {
-        try {
-            const response = await api.put(`/admin/events/${eventId}`, eventData);
-            return { success: true, data: response.data };
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || 'Failed to update event.',
-            };
-        }
-    },
-
-    deleteEvent: async (eventId) => {
-        try {
-            const response = await api.delete(`/admin/events/${eventId}`);
-            return { success: true, data: response.data };
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || 'Failed to delete event.',
-            };
-        }
-    },
-
-    uploadEventImage: async (eventId, imageFile) => {
-        try {
-            const formData = new FormData();
-            formData.append('image', imageFile);
-
-            const response = await api.post(`/admin/events/${eventId}/image`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            return await apiClient.patch(`/api/admin/bookings/${bookingId}/status`, {
+                status,
+                notes,
             });
-            return { success: true, data: response.data };
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to upload image.',
+                error: error.message || 'Status update failed',
             };
         }
     },
 
-    // === ANALYTICS ===
-    getAnalytics: async (dateRange = {}) => {
+    // ========== USER MANAGEMENT ==========
+
+    // Get all users
+    getAllUsers: async (page = 0, size = 50) => {
+        try {
+            return await apiClient.get(`/api/admin/users?page=${page}&size=${size}`);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Failed to fetch users',
+            };
+        }
+    },
+
+    // Update user role
+    updateUserRole: async (userId, role) => {
+        try {
+            return await apiClient.patch(`/api/admin/users/${userId}/role`, { role });
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Role update failed',
+            };
+        }
+    },
+
+    // Suspend user
+    suspendUser: async (userId, reason = '') => {
+        try {
+            return await apiClient.post(`/api/admin/users/${userId}/suspend`, { reason });
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'User suspension failed',
+            };
+        }
+    },
+
+    // Activate user
+    activateUser: async (userId) => {
+        try {
+            return await apiClient.post(`/api/admin/users/${userId}/activate`);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'User activation failed',
+            };
+        }
+    },
+
+    // ========== ANALYTICS ==========
+
+    // Get analytics data
+    getAnalytics: async (filters = {}) => {
         try {
             const params = new URLSearchParams();
-            if (dateRange.startDate) params.append('startDate', dateRange.startDate);
-            if (dateRange.endDate) params.append('endDate', dateRange.endDate);
 
-            const response = await api.get(`/admin/analytics?${params.toString()}`);
-            return { success: true, data: response.data };
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || 'Failed to fetch analytics.',
-            };
-        }
-    },
-
-    getDashboardStats: async () => {
-        try {
-            const response = await api.get('/admin/dashboard/stats');
-            return { success: true, data: response.data };
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || 'Failed to fetch dashboard stats.',
-            };
-        }
-    },
-
-    getRevenueReport: async (period = 'month') => {
-        try {
-            const response = await api.get(`/admin/reports/revenue?period=${period}`);
-            return { success: true, data: response.data };
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || 'Failed to fetch revenue report.',
-            };
-        }
-    },
-
-    exportBookings: async (format = 'csv', filters = {}) => {
-        try {
-            const params = new URLSearchParams();
+            if (filters.days) params.append('days', filters.days);
             if (filters.startDate) params.append('startDate', filters.startDate);
             if (filters.endDate) params.append('endDate', filters.endDate);
-            if (filters.status) params.append('status', filters.status);
 
-            const response = await api.get(`/admin/export/bookings?format=${format}&${params.toString()}`, {
-                responseType: 'blob',
-            });
-
-            // Trigger download
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `bookings-export.${format}`);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-
-            return { success: true };
+            return await apiClient.get(`/api/admin/analytics?${params.toString()}`);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to export bookings.',
+                error: error.message || 'Failed to fetch analytics',
+                data: {
+                    totalRevenue: 0,
+                    revenueGrowth: 0,
+                    totalBookings: 0,
+                    bookingsGrowth: 0,
+                    totalUsers: 0,
+                    usersGrowth: 0,
+                    totalEvents: 0,
+                    eventsGrowth: 0,
+                    revenueData: [],
+                    bookingsData: [],
+                    topEvents: [],
+                    categoryDistribution: [],
+                    recentActivity: [],
+                    avgBookingValue: 0,
+                    conversionRate: 0,
+                    activeUsersToday: 0,
+                },
             };
         }
     },
 
-    // Send bulk notifications
-    sendBulkNotification: async (notificationData) => {
+    // Get dashboard stats
+    getDashboardStats: async () => {
         try {
-            const response = await api.post('/admin/notifications/bulk', notificationData);
-            return { success: true, data: response.data };
+            return await apiClient.get('/api/admin/dashboard/stats');
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to send notifications.',
+                error: error.message || 'Failed to fetch stats',
+            };
+        }
+    },
+
+    // ========== REPORTS ==========
+
+    // Generate report
+    generateReport: async (reportData) => {
+        try {
+            return await apiClient.post('/api/admin/reports/generate', reportData);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Report generation failed',
+            };
+        }
+    },
+
+    // Export bookings
+    exportBookings: async (format = 'csv', filters = {}) => {
+        try {
+            const params = new URLSearchParams({ format });
+
+            if (filters.status) params.append('status', filters.status);
+            if (filters.startDate) params.append('startDate', filters.startDate);
+            if (filters.endDate) params.append('endDate', filters.endDate);
+
+            const result = await apiClient.get(
+                `/api/admin/bookings/export?${params.toString()}`,
+                { responseType: 'blob' }
+            );
+
+            if (result.success) {
+                const url = window.URL.createObjectURL(new Blob([result.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `bookings-export.${format}`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+            }
+
+            return result;
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Export failed',
+            };
+        }
+    },
+
+    // ========== PROMOTIONS ==========
+
+    // Create promo code
+    createPromoCode: async (promoData) => {
+        try {
+            return await apiClient.post('/api/admin/promo-codes', promoData);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Promo code creation failed',
+            };
+        }
+    },
+
+    // Get all promo codes
+    getAllPromoCodes: async () => {
+        try {
+            return await apiClient.get('/api/admin/promo-codes');
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Failed to fetch promo codes',
+            };
+        }
+    },
+
+    // Delete promo code
+    deletePromoCode: async (codeId) => {
+        try {
+            return await apiClient.delete(`/api/admin/promo-codes/${codeId}`);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Promo code deletion failed',
             };
         }
     },

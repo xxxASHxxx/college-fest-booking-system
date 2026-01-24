@@ -1,121 +1,39 @@
+import { REGEX_PATTERNS, ERROR_MESSAGES } from './constants';
+
 // Email validation
 export const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return REGEX_PATTERNS.EMAIL.test(email);
 };
 
-// Phone number validation (Indian format)
+// Phone validation
 export const isValidPhone = (phone) => {
-    const phoneRegex = /^[6-9]\d{9}$/;
     const cleaned = phone.replace(/\D/g, '');
-    return phoneRegex.test(cleaned);
+    return REGEX_PATTERNS.PHONE.test(cleaned);
 };
 
-// Password strength validation
-export const validatePassword = (password) => {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumber = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    const strength = {
-        isValid: false,
-        score: 0,
-        feedback: [],
-    };
-
-    if (password.length < minLength) {
-        strength.feedback.push(`Password must be at least ${minLength} characters long`);
-    } else {
-        strength.score += 1;
-    }
-
-    if (!hasUpperCase) {
-        strength.feedback.push('Include at least one uppercase letter');
-    } else {
-        strength.score += 1;
-    }
-
-    if (!hasLowerCase) {
-        strength.feedback.push('Include at least one lowercase letter');
-    } else {
-        strength.score += 1;
-    }
-
-    if (!hasNumber) {
-        strength.feedback.push('Include at least one number');
-    } else {
-        strength.score += 1;
-    }
-
-    if (!hasSpecialChar) {
-        strength.feedback.push('Include at least one special character');
-    } else {
-        strength.score += 1;
-    }
-
-    strength.isValid = strength.score >= 4;
-
-    // Strength levels
-    if (strength.score <= 2) {
-        strength.level = 'weak';
-    } else if (strength.score === 3 || strength.score === 4) {
-        strength.level = 'medium';
-    } else {
-        strength.level = 'strong';
-    }
-
-    return strength;
+// Password validation
+export const isValidPassword = (password) => {
+    return REGEX_PATTERNS.PASSWORD.test(password);
 };
 
-// Name validation
-export const isValidName = (name) => {
-    if (!name || name.trim().length < 2) return false;
-    const nameRegex = /^[a-zA-Z\s]+$/;
-    return nameRegex.test(name);
+// UPI ID validation
+export const isValidUPI = (upi) => {
+    return REGEX_PATTERNS.UPI.test(upi);
 };
 
-// Age validation
-export const isValidAge = (age) => {
-    return age >= 10 && age <= 120;
-};
-
-// Date validation (future date)
-export const isFutureDate = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    return date > now;
-};
-
-// URL validation
-export const isValidURL = (url) => {
-    try {
-        new URL(url);
-        return true;
-    } catch (error) {
-        return false;
-    }
-};
-
-// Promo code validation
-export const isValidPromoCode = (code) => {
-    if (!code || code.length < 4 || code.length > 20) return false;
-    const promoRegex = /^[A-Z0-9]+$/;
-    return promoRegex.test(code);
-};
-
-// Credit card validation (basic Luhn algorithm)
+// Card number validation (Luhn algorithm)
 export const isValidCardNumber = (cardNumber) => {
     const cleaned = cardNumber.replace(/\s/g, '');
 
-    if (!/^\d{13,19}$/.test(cleaned)) return false;
+    if (!REGEX_PATTERNS.CARD_NUMBER.test(cleaned)) {
+        return false;
+    }
 
     let sum = 0;
     let isEven = false;
 
     for (let i = cleaned.length - 1; i >= 0; i--) {
-        let digit = parseInt(cleaned.charAt(i), 10);
+        let digit = parseInt(cleaned[i], 10);
 
         if (isEven) {
             digit *= 2;
@@ -133,52 +51,147 @@ export const isValidCardNumber = (cardNumber) => {
 
 // CVV validation
 export const isValidCVV = (cvv) => {
-    return /^\d{3,4}$/.test(cvv);
+    return REGEX_PATTERNS.CVV.test(cvv);
 };
 
-// Expiry date validation (MM/YY format)
+// Expiry date validation
 export const isValidExpiryDate = (expiry) => {
-    const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-    if (!expiryRegex.test(expiry)) return false;
+    if (!REGEX_PATTERNS.EXPIRY_DATE.test(expiry)) {
+        return false;
+    }
 
-    const [month, year] = expiry.split('/');
-    const expiryDate = new Date(`20${year}`, month - 1);
-    const now = new Date();
+    const [month, year] = expiry.split('/').map(Number);
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear() % 100;
+    const currentMonth = currentDate.getMonth() + 1;
 
-    return expiryDate > now;
+    if (year < currentYear) return false;
+    if (year === currentYear && month < currentMonth) return false;
+
+    return true;
 };
 
-// Form validation helper
-export const validateForm = (fields, rules) => {
+// Pincode validation
+export const isValidPincode = (pincode) => {
+    return REGEX_PATTERNS.PINCODE.test(pincode);
+};
+
+// URL validation
+export const isValidUrl = (url) => {
+    try {
+        new URL(url);
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
+
+// File validation
+export const isValidFile = (file, allowedTypes, maxSize) => {
+    if (!file) return false;
+
+    // Check file type
+    if (allowedTypes && !allowedTypes.includes(file.type)) {
+        return false;
+    }
+
+    // Check file size
+    if (maxSize && file.size > maxSize) {
+        return false;
+    }
+
+    return true;
+};
+
+// Age validation (must be 18+)
+export const isValidAge = (birthDate) => {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+
+    return age >= 18;
+};
+
+// Form validation
+export const validateForm = (values, rules) => {
     const errors = {};
 
-    Object.keys(rules).forEach((fieldName) => {
-        const value = fields[fieldName];
-        const fieldRules = rules[fieldName];
+    Object.keys(rules).forEach((field) => {
+        const rule = rules[field];
+        const value = values[field];
 
-        if (fieldRules.required && (!value || value.trim() === '')) {
-            errors[fieldName] = `${fieldName} is required`;
+        // Required check
+        if (rule.required && (!value || (typeof value === 'string' && !value.trim()))) {
+            errors[field] = rule.message || ERROR_MESSAGES.REQUIRED;
             return;
         }
 
-        if (value && fieldRules.email && !isValidEmail(value)) {
-            errors[fieldName] = 'Invalid email address';
+        // Skip other validations if empty and not required
+        if (!value) return;
+
+        // Min length check
+        if (rule.minLength && value.length < rule.minLength) {
+            errors[field] = rule.message || `Minimum ${rule.minLength} characters required`;
+            return;
         }
 
-        if (value && fieldRules.phone && !isValidPhone(value)) {
-            errors[fieldName] = 'Invalid phone number';
+        // Max length check
+        if (rule.maxLength && value.length > rule.maxLength) {
+            errors[field] = rule.message || `Maximum ${rule.maxLength} characters allowed`;
+            return;
         }
 
-        if (value && fieldRules.minLength && value.length < fieldRules.minLength) {
-            errors[fieldName] = `Must be at least ${fieldRules.minLength} characters`;
+        // Pattern check
+        if (rule.pattern && !rule.pattern.test(value)) {
+            errors[field] = rule.message || 'Invalid format';
+            return;
         }
 
-        if (value && fieldRules.maxLength && value.length > fieldRules.maxLength) {
-            errors[fieldName] = `Must be at most ${fieldRules.maxLength} characters`;
+        // Email check
+        if (rule.email && !isValidEmail(value)) {
+            errors[field] = rule.message || ERROR_MESSAGES.INVALID_EMAIL;
+            return;
         }
 
-        if (value && fieldRules.matches && value !== fields[fieldRules.matches]) {
-            errors[fieldName] = `${fieldName} does not match`;
+        // Phone check
+        if (rule.phone && !isValidPhone(value)) {
+            errors[field] = rule.message || ERROR_MESSAGES.INVALID_PHONE;
+            return;
+        }
+
+        // Password check
+        if (rule.password && !isValidPassword(value)) {
+            errors[field] = rule.message || ERROR_MESSAGES.INVALID_PASSWORD;
+            return;
+        }
+
+        // Match check (e.g., password confirmation)
+        if (rule.match && value !== values[rule.match]) {
+            errors[field] = rule.message || ERROR_MESSAGES.PASSWORD_MISMATCH;
+            return;
+        }
+
+        // Min value check
+        if (rule.min !== undefined && Number(value) < rule.min) {
+            errors[field] = rule.message || `Minimum value is ${rule.min}`;
+            return;
+        }
+
+        // Max value check
+        if (rule.max !== undefined && Number(value) > rule.max) {
+            errors[field] = rule.message || `Maximum value is ${rule.max}`;
+            return;
+        }
+
+        // Custom validator
+        if (rule.validator && !rule.validator(value, values)) {
+            errors[field] = rule.message || 'Invalid value';
+            return;
         }
     });
 

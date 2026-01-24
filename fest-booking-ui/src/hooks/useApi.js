@@ -6,23 +6,24 @@ export const useApi = (apiFunc) => {
     const [error, setError] = useState(null);
 
     const execute = useCallback(
-        async (...params) => {
+        async (...args) => {
+            setLoading(true);
+            setError(null);
+
             try {
-                setLoading(true);
-                setError(null);
-                const result = await apiFunc(...params);
+                const result = await apiFunc(...args);
 
                 if (result.success) {
                     setData(result.data);
                     return { success: true, data: result.data };
                 } else {
-                    setError(result.error);
+                    setError(result.error || 'Request failed');
                     return { success: false, error: result.error };
                 }
             } catch (err) {
-                const errorMsg = err.message || 'An error occurred';
-                setError(errorMsg);
-                return { success: false, error: errorMsg };
+                const errorMessage = err.message || 'An error occurred';
+                setError(errorMessage);
+                return { success: false, error: errorMessage };
             } finally {
                 setLoading(false);
             }

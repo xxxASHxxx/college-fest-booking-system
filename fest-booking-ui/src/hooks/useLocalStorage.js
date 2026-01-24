@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export const useLocalStorage = (key, initialValue) => {
     // Get initial value from localStorage or use provided initial value
@@ -7,7 +7,7 @@ export const useLocalStorage = (key, initialValue) => {
             const item = window.localStorage.getItem(key);
             return item ? JSON.parse(item) : initialValue;
         } catch (error) {
-            console.error(`Error loading localStorage key "${key}":`, error);
+            console.error('Error reading from localStorage:', error);
             return initialValue;
         }
     });
@@ -17,9 +17,27 @@ export const useLocalStorage = (key, initialValue) => {
         try {
             window.localStorage.setItem(key, JSON.stringify(storedValue));
         } catch (error) {
-            console.error(`Error saving localStorage key "${key}":`, error);
+            console.error('Error writing to localStorage:', error);
         }
     }, [key, storedValue]);
 
-    return [storedValue, setStoredValue];
+    // Update value
+    const setValue = useCallback((value) => {
+        setStoredValue((prev) => {
+            const newValue = value instanceof Function ? value(prev) : value;
+            return newValue;
+        });
+    }, []);
+
+    // Remove value
+    const removeValue = useCallback(() => {
+        try {
+            window.localStorage.removeItem(key);
+            setStoredValue(initialValue);
+        } catch (error) {
+            console.error('Error removing from localStorage:', error);
+        }
+    }, [key, initialValue]);
+
+    return [storedValue, setValue, removeValue];
 };

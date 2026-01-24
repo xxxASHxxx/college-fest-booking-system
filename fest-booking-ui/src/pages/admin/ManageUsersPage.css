@@ -1,0 +1,5 @@
+.manage-users-page {
+    min-height: 100vh;
+    background: var(--background-primary);
+    padding: 2rem 0;
+}

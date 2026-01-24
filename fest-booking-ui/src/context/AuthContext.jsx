@@ -1,122 +1,151 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import authService from '../services/authService';
-import { toast } from 'react-toastify';
+import { setAuthToken, clearAuthToken } from '../utils/helpers';
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(false);
 
     // Initialize auth state from localStorage
     useEffect(() => {
-        const initAuth = () => {
-            const currentUser = authService.getCurrentUser();
-            const authenticated = authService.isAuthenticated();
-            const adminStatus = authService.isAdmin();
+        const initializeAuth = async () => {
+            const token = localStorage.getItem('authToken');
+            const storedUser = authService.getStoredUser();
 
-            setUser(currentUser);
-            setIsAuthenticated(authenticated);
-            setIsAdmin(adminStatus);
-            setIsLoading(false);
+            if (token && storedUser) {
+                setUser(storedUser);
+                setIsAuthenticated(true);
+
+                // Verify token validity
+                try {
+                    const result = await authService.getCurrentUser();
+                    if (result.success) {
+                        setUser(result.data);
+                    } else {
+                        // Token invalid, clear auth
+                        await logout();
+                    }
+                } catch (error) {
+                    await logout();
+                }
+            }
+
+            setLoading(false);
         };
 
-        initAuth();
+        initializeAuth();
     }, []);
 
-    // Login function
-    const login = useCallback(async (email, password, rememberMe = false) => {
+    // Login
+    const login = useCallback(async (credentials) => {
         try {
-            const result = await authService.login(email, password);
+            const result = await authService.login(credentials);
 
             if (result.success) {
-                const { user: userData } = result.data;
-                setUser(userData);
+                setUser(result.data.user);
                 setIsAuthenticated(true);
-                setIsAdmin(userData.role === 'ADMIN' || userData.role === 'SUPER_ADMIN');
-
-                toast.success(`Welcome back, ${userData.name}!`);
-                return { success: true, user: userData };
-            } else {
-                toast.error(result.error);
-                return { success: false, error: result.error };
+                return { success: true, data: result.data };
             }
+
+            return result;
         } catch (error) {
-            const errorMsg = 'Login failed. Please try again.';
-            toast.error(errorMsg);
-            return { success: false, error: errorMsg };
+            return {
+                success: false,
+                error: error.message || 'Login failed',
+            };
         }
     }, []);
 
-    // Register function
+    // Register
     const register = useCallback(async (userData) => {
         try {
             const result = await authService.register(userData);
 
             if (result.success) {
-                const { user: newUser } = result.data;
-                setUser(newUser);
+                setUser(result.data.user);
                 setIsAuthenticated(true);
-                setIsAdmin(newUser.role === 'ADMIN' || newUser.role === 'SUPER_ADMIN');
-
-                toast.success(`Welcome, ${newUser.name}! Your account has been created.`);
-                return { success: true, user: newUser };
-            } else {
-                toast.error(result.error);
-                return { success: false, error: result.error };
+                return { success: true, data: result.data };
             }
+
+            return result;
         } catch (error) {
-            const errorMsg = 'Registration failed. Please try again.';
-            toast.error(errorMsg);
-            return { success: false, error: errorMsg };
+            return {
+                success: false,
+                error: error.message || 'Registration failed',
+            };
         }
     }, []);
 
-    // Logout function
+    // Logout
     const logout = useCallback(async () => {
         try {
             await authService.logout();
+        } finally {
             setUser(null);
             setIsAuthenticated(false);
-            setIsAdmin(false);
-            toast.info('You have been logged out.');
-        } catch (error) {
-            console.error('Logout error:', error);
-            // Clear state anyway
-            setUser(null);
-            setIsAuthenticated(false);
-            setIsAdmin(false);
+            clearAuthToken();
         }
     }, []);
 
     // Update user profile
-    const updateProfile = useCallback((updatedUser) => {
-        setUser(updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        toast.success('Profile updated successfully!');
-    }, []);
+    const updateProfile = useCallback(async (userData) => {
+        try {
+            const result = await authService.updateProfile(userData);
 
-    // Refresh user data
-    const refreshUserData = useCallback(async () => {
-        const currentUser = authService.getCurrentUser();
-        if (currentUser) {
-            setUser(currentUser);
-            setIsAdmin(currentUser.role === 'ADMIN' || currentUser.role === 'SUPER_ADMIN');
+            if (result.success) {
+                setUser((prev) => ({ ...prev, ...result.data }));
+                return { success: true, data: result.data };
+            }
+
+            return result;
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Profile update failed',
+            };
         }
     }, []);
 
+    // Refresh user data
+    const refreshUser = useCallback(async () => {
+        try {
+            const result = await authService.getCurrentUser();
+
+            if (result.success) {
+                setUser(result.data);
+                return { success: true };
+            }
+
+            return result;
+        } catch (error) {
+            return { success: false };
+        }
+    }, []);
+
+    // Check if user has role
+    const hasRole = useCallback((role) => {
+        return user?.role === role;
+    }, [user]);
+
+    // Check if user has any of the roles
+    const hasAnyRole = useCallback((roles) => {
+        return roles.includes(user?.role);
+    }, [user]);
+
     const value = {
         user,
+        loading,
         isAuthenticated,
-        isLoading,
-        isAdmin,
         login,
         register,
         logout,
         updateProfile,
-        refreshUserData,
+        refreshUser,
+        hasRole,
+        hasAnyRole,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,15 +1,14 @@
-import api from './api';
+import { apiClient } from './api';
 
 const ticketService = {
     // Get ticket by ID
     getTicketById: async (ticketId) => {
         try {
-            const response = await api.get(`/tickets/${ticketId}`);
-            return { success: true, data: response.data };
+            return await apiClient.get(`/api/tickets/${ticketId}`);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to fetch ticket details.',
+                error: error.message || 'Failed to fetch ticket',
             };
         }
     },
@@ -17,63 +16,71 @@ const ticketService = {
     // Get tickets by booking ID
     getTicketsByBookingId: async (bookingId) => {
         try {
-            const response = await api.get(`/tickets/booking/${bookingId}`);
-            return { success: true, data: response.data };
+            return await apiClient.get(`/api/tickets/booking/${bookingId}`);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to fetch tickets.',
+                error: error.message || 'Failed to fetch tickets',
             };
         }
     },
 
-    // Get user tickets
-    getUserTickets: async (userId, filter = 'all') => {
+    // Get user's tickets
+    getUserTickets: async (filters = {}) => {
         try {
-            const response = await api.get(`/tickets/user/${userId}?filter=${filter}`);
-            return { success: true, data: response.data };
+            const params = new URLSearchParams();
+
+            if (filters.status) params.append('status', filters.status);
+            if (filters.eventId) params.append('eventId', filters.eventId);
+
+            params.append('page', filters.page || 0);
+            params.append('size', filters.size || 20);
+
+            return await apiClient.get(`/api/tickets/my-tickets?${params.toString()}`);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to fetch user tickets.',
+                error: error.message || 'Failed to fetch tickets',
             };
         }
     },
 
-    // Download ticket as PDF
+    // Download ticket
     downloadTicket: async (ticketId) => {
         try {
-            const response = await api.get(`/tickets/${ticketId}/download`, {
+            const result = await apiClient.get(`/api/tickets/${ticketId}/download`, {
                 responseType: 'blob',
             });
 
-            // Create blob URL and trigger download
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `ticket-${ticketId}.pdf`);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+            if (result.success) {
+                // Create download link
+                const url = window.URL.createObjectURL(new Blob([result.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `ticket-${ticketId}.pdf`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+            }
 
-            return { success: true };
+            return result;
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to download ticket.',
+                error: error.message || 'Download failed',
             };
         }
     },
 
-    // Validate ticket QR code
-    validateTicket: async (qrCode) => {
+    // Verify ticket QR code
+    verifyTicketQR: async (qrData) => {
         try {
-            const response = await api.post('/tickets/validate', { qrCode });
-            return { success: true, data: response.data };
+            return await apiClient.post('/api/tickets/verify-qr', { qrData });
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Ticket validation failed.',
+                error: error.message || 'Verification failed',
             };
         }
     },
@@ -81,25 +88,37 @@ const ticketService = {
     // Check-in ticket
     checkInTicket: async (ticketId) => {
         try {
-            const response = await api.put(`/tickets/${ticketId}/check-in`);
-            return { success: true, data: response.data };
+            return await apiClient.post(`/api/tickets/${ticketId}/check-in`);
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Check-in failed.',
+                error: error.message || 'Check-in failed',
             };
         }
     },
 
-    // Share ticket
-    shareTicket: async (ticketId, email) => {
+    // Transfer ticket
+    transferTicket: async (ticketId, recipientEmail) => {
         try {
-            const response = await api.post(`/tickets/${ticketId}/share`, { email });
-            return { success: true, data: response.data };
+            return await apiClient.post(`/api/tickets/${ticketId}/transfer`, {
+                recipientEmail,
+            });
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Failed to share ticket.',
+                error: error.message || 'Transfer failed',
+            };
+        }
+    },
+
+    // Resend ticket email
+    resendTicketEmail: async (ticketId) => {
+        try {
+            return await apiClient.post(`/api/tickets/${ticketId}/resend-email`);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Failed to resend email',
             };
         }
     },

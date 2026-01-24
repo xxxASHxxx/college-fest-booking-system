@@ -1,39 +1,45 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 export const ThemeContext = createContext(null);
 
 export const ThemeProvider = ({ children }) => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [theme, setTheme] = useState('dark');
+    const [accentColor, setAccentColor] = useState('purple');
 
-    // Load theme preference from localStorage
+    // Initialize theme from localStorage
     useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            setIsDarkMode(savedTheme === 'dark');
-        } else {
-            // Check system preference
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setIsDarkMode(prefersDark);
-        }
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const savedAccent = localStorage.getItem('accentColor') || 'purple';
+
+        setTheme(savedTheme);
+        setAccentColor(savedAccent);
+
+        // Apply theme to document
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.documentElement.setAttribute('data-accent', savedAccent);
     }, []);
 
-    // Apply theme class to document
-    useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    }, [isDarkMode]);
+    // Toggle theme
+    const toggleTheme = useCallback(() => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+    }, [theme]);
 
-    const toggleTheme = () => {
-        setIsDarkMode((prev) => !prev);
-    };
+    // Change accent color
+    const changeAccentColor = useCallback((color) => {
+        setAccentColor(color);
+        localStorage.setItem('accentColor', color);
+        document.documentElement.setAttribute('data-accent', color);
+    }, []);
 
     const value = {
-        isDarkMode,
+        theme,
+        accentColor,
         toggleTheme,
+        changeAccentColor,
+        isDark: theme === 'dark',
     };
 
     return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

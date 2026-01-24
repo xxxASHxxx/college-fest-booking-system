@@ -1,0 +1,225 @@
+.booking-page {
+    min-height: 100vh;
+    background: var(--background-primary);
+    padding: 2rem 0;
+}
+
+.booking-loading {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.booking-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.booking-timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--warning-light);
+    color: var(--warning-color);
+    border-radius: 12px;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    border: 1px solid var(--warning-color);
+}
+
+.booking-steps {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--background-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.booking-step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    transition: all 0.3s;
+    opacity: 0.5;
+}
+
+.booking-step.active {
+    opacity: 1;
+    background: var(--primary-light);
+}
+
+.booking-step.completed {
+    opacity: 1;
+}
+
+.step-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: var(--background-primary);
+    border: 2px solid var(--border-color);
+    transition: all 0.3s;
+}
+
+.booking-step.active .step-icon {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.booking-step.completed .step-icon {
+    background: var(--success-color);
+    color: white;
+    border-color: var(--success-color);
+}
+
+.step-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.step-number {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+.step-title {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.booking-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+}
+
+.booking-main {
+    background: var(--background-secondary);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.booking-sidebar {
+    position: sticky;
+    top: 90px;
+    height: fit-content;
+}
+
+.user-details-form {
+    max-width: 600px;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.form-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0 0 2rem 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-input {
+    padding: 0.875rem 1rem;
+    background: var(--background-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    border-color: var(--primary-color);
+}
+
+.form-input.error {
+    border-color: var(--danger-color);
+}
+
+.error-message {
+    font-size: 0.875rem;
+    color: var(--danger-color);
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .booking-content {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .booking-steps {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .booking-step {
+        padding: 1rem;
+    }
+
+    .step-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+
+    .booking-main {
+        padding: 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+}

@@ -1,21 +1,19 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { API_BASE_URL, API_TIMEOUT } from '../utils/constants';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
-
-// Create axios instance with default config
+// Create axios instance
 const api = axios.create({
     baseURL: API_BASE_URL,
+    timeout: API_TIMEOUT,
     headers: {
         'Content-Type': 'application/json',
     },
-    timeout: 10000,
 });
 
-// Request interceptor - Add JWT token to all requests
+// Request interceptor - Add auth token
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('authToken');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -26,66 +24,113 @@ api.interceptors.request.use(
     }
 );
 
-// Response interceptor - Handle common errors
+// Response interceptor - Handle errors globally
 api.interceptors.response.use(
     (response) => {
         return response;
     },
-    async (error) => {
-        const originalRequest = error.config;
-
-        // Handle 401 Unauthorized - Token expired
-        if (error.response?.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-
-            // Try to refresh token
-            const refreshToken = localStorage.getItem('refreshToken');
-            if (refreshToken) {
-                try {
-                    const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-                        refreshToken,
-                    });
-                    localStorage.setItem('token', data.token);
-                    originalRequest.headers.Authorization = `Bearer ${data.token}`;
-                    return api(originalRequest);
-                } catch (refreshError) {
-                    // Refresh failed - logout user
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('refreshToken');
+    (error) => {
+        if (error.response) {
+            // Server responded with error
+            switch (error.response.status) {
+                case 401:
+                    // Unauthorized - Clear token and redirect to login
+                    localStorage.removeItem('authToken');
                     localStorage.removeItem('user');
                     window.location.href = '/login';
-                    toast.error('Session expired. Please login again.');
-                }
-            } else {
-                // No refresh token - logout
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                window.location.href = '/login';
+                    break;
+                case 403:
+                    // Forbidden
+                    console.error('Access forbidden:', error.response.data);
+                    break;
+                case 404:
+                    // Not found
+                    console.error('Resource not found:', error.response.data);
+                    break;
+                case 500:
+                    // Server error
+                    console.error('Server error:', error.response.data);
+                    break;
+                default:
+                    console.error('API Error:', error.response.data);
             }
+        } else if (error.request) {
+            // Request made but no response
+            console.error('Network error:', error.request);
+        } else {
+            // Error in request setup
+            console.error('Request error:', error.message);
         }
-
-        // Handle 403 Forbidden
-        if (error.response?.status === 403) {
-            toast.error('You do not have permission to perform this action.');
-        }
-
-        // Handle 404 Not Found
-        if (error.response?.status === 404) {
-            toast.error('Resource not found.');
-        }
-
-        // Handle 500 Server Error
-        if (error.response?.status === 500) {
-            toast.error('Server error. Please try again later.');
-        }
-
-        // Handle network errors
-        if (!error.response) {
-            toast.error('Network error. Please check your connection.');
-        }
-
         return Promise.reject(error);
     }
 );
+
+// API methods
+export const apiClient = {
+    // GET request
+    get: async (url, config = {}) => {
+        try {
+            const response = await api.get(url, config);
+            return { success: true, data: response.data };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || error.message || 'Request failed',
+            };
+        }
+    },
+
+    // POST request
+    post: async (url, data = {}, config = {}) => {
+        try {
+            const response = await api.post(url, data, config);
+            return { success: true, data: response.data };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || error.message || 'Request failed',
+            };
+        }
+    },
+
+    // PUT request
+    put: async (url, data = {}, config = {}) => {
+        try {
+            const response = await api.put(url, data, config);
+            return { success: true, data: response.data };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || error.message || 'Request failed',
+            };
+        }
+    },
+
+    // PATCH request
+    patch: async (url, data = {}, config = {}) => {
+        try {
+            const response = await api.patch(url, data, config);
+            return { success: true, data: response.data };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || error.message || 'Request failed',
+            };
+        }
+    },
+
+    // DELETE request
+    delete: async (url, config = {}) => {
+        try {
+            const response = await api.delete(url, config);
+            return { success: true, data: response.data };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || error.message || 'Request failed',
+            };
+        }
+    },
+};
 
 export default api;
