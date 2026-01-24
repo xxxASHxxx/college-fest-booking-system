@@ -1,0 +1,132 @@
+.user-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--background-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.user-table {
+    width: 100%;
+    min-width: 1000px;
+}
+
+.user-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table thead {
+    background: var(--background-primary);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.user-table th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-table td {
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.user-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.user-table tbody tr:hover {
+    background: var(--background-primary);
+}
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.user-id {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+}
+
+.user-email,
+.user-phone,
+.user-joined {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.role-select {
+    padding: 0.5rem 0.75rem;
+    background: var(--background-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.role-select:hover {
+    border-color: var(--primary-color);
+}
+
+.role-select:focus {
+    border-color: var(--primary-color);
+}
+
+.status-toggle {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.status-toggle.active {
+    background: var(--success-light);
+    color: var(--success-color);
+}
+
+.status-toggle.active:hover {
+    background: var(--success-color);
+    color: white;
+}
+
+.status-toggle.inactive {
+    background: var(--danger-light);
+    color: var(--danger-color);
+}
+
+.status-toggle.inactive:hover {
+    background: var(--danger-color);
+    color: white;
+}

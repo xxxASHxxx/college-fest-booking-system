@@ -1,0 +1,176 @@
+.event-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--background-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.table-empty {
+    padding: 4rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.event-table {
+    width: 100%;
+    min-width: 1000px;
+}
+
+.event-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.event-table thead {
+    background: var(--background-primary);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.event-table th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.event-table td {
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.event-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.event-table tbody tr:hover {
+    background: var(--background-primary);
+}
+
+.event-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.event-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.event-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.event-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.event-category {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-transform: capitalize;
+}
+
+.event-date,
+.event-venue,
+.event-price {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.event-price {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.seats-info {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.seats-available {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.seats-total {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.action-btn.view {
+    background: var(--info-light);
+    color: var(--info-color);
+}
+
+.action-btn.view:hover {
+    background: var(--info-color);
+    color: white;
+}
+
+.action-btn.edit {
+    background: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.action-btn.edit:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.action-btn.toggle {
+    background: var(--warning-light);
+    color: var(--warning-color);
+}
+
+.action-btn.toggle:hover {
+    background: var(--warning-color);
+    color: white;
+}
+
+.action-btn.delete {
+    background: var(--danger-light);
+    color: var(--danger-color);
+}
+
+.action-btn.delete:hover {
+    background: var(--danger-color);
+    color: white;
+}

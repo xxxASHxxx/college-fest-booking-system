@@ -1,33 +1,38 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import { USER_ROLES } from '../utils/constants';
 
-const AdminRoute = ({ children }) => {
+const AdminRoute = () => {
     const { user, isAuthenticated, loading } = useAuth();
     const location = useLocation();
 
-    // Show loading while checking auth status
+    // Show loading spinner while checking authentication
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
+            <div style={{
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
                 <LoadingSpinner size="large" />
             </div>
         );
     }
 
-    // Redirect to login if not authenticated
+    // If not authenticated, redirect to login
     if (!isAuthenticated) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    // Redirect to home if not admin
-    if (user?.role !== USER_ROLES.ADMIN) {
+    // If authenticated but not admin, redirect to home
+    if (user?.role !== 'ADMIN') {
         return <Navigate to="/" replace />;
     }
 
-    return children;
+    // If authenticated and admin, render the admin page
+    return <Outlet />;
 };
 
 export default AdminRoute;

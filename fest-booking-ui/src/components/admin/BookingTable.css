@@ -1,0 +1,157 @@
+.booking-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--background-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.booking-table {
+    width: 100%;
+    min-width: 1100px;
+}
+
+.booking-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.booking-table thead {
+    background: var(--background-primary);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.booking-table th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.booking-table td {
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.booking-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.booking-table tbody tr:hover {
+    background: var(--background-primary);
+}
+
+.booking-id {
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+}
+
+.event-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.event-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.event-date {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+}
+
+.booking-date {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.booking-quantity {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.booking-amount {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.action-btn.view {
+    background: var(--info-light);
+    color: var(--info-color);
+}
+
+.action-btn.view:hover {
+    background: var(--info-color);
+    color: white;
+}
+
+.action-btn.confirm {
+    background: var(--success-light);
+    color: var(--success-color);
+}
+
+.action-btn.confirm:hover {
+    background: var(--success-color);
+    color: white;
+}
+
+.action-btn.cancel {
+    background: var(--danger-light);
+    color: var(--danger-color);
+}
+
+.action-btn.cancel:hover {
+    background: var(--danger-color);
+    color: white;
+}

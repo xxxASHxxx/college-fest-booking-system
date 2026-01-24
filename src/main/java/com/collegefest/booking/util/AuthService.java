@@ -3,7 +3,7 @@ package com.collegefest.booking.service;
 import com.collegefest.booking.dto.request.LoginRequestDTO;
 import com.collegefest.booking.dto.request.RegisterRequestDTO;
 import com.collegefest.booking.dto.response.AuthResponseDTO;
-import com.collegefest.booking.dto.response.UserResponseDTO;
+import com.collegefest.booking.dto.response,.UserResponseDTO;
 import com.collegefest.booking.entity.User;
 import com.collegefest.booking.entity.UserRole;
 import com.collegefest.booking.exception.DuplicateResourceException;
