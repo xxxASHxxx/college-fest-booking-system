@@ -1,0 +1,638 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.collegefest:booking >-----------------------
+[INFO] Building CollegeFestBooking 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ booking ---
+[INFO] Deleting C:\Users\Ashmit\Downloads\booking\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ booking ---
+[INFO] Copying 3 resources from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ booking ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 94 source files with javac [debug release 17] to target\classes
+[INFO] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/security/JwtTokenProvider.java: C:\Users\Ashmit\Downloads\booking\src\main\java\com\collegefest\booking\security\JwtTokenProvider.java uses or overrides a deprecated API.
+[INFO] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/security/JwtTokenProvider.java: Recompile with -Xlint:deprecation for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AdminDashboardController.java:[19,36] variable dashboardService not initialized in the default constructor
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/DashboardService.java:[40,38] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.dto.response.DashboardStatsResponse
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/dto/response/ApiResponse.java:[26,16] cannot infer type arguments for com.collegefest.booking.dto.response.ApiResponse<>
+  reason: cannot infer type-variable(s) T
+    (actual and formal argument lists differ in length)
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/dto/response/ApiResponse.java:[30,16] cannot infer type arguments for com.collegefest.booking.dto.response.ApiResponse<>
+  reason: cannot infer type-variable(s) T
+    (actual and formal argument lists differ in length)
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[29,45] cannot find symbol
+  symbol:   method getBookingReference()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[43,39] cannot find symbol
+  symbol:   method getEvent()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[61,24] cannot find symbol
+  symbol:   method getBookingReference()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[62,24] cannot find symbol
+  symbol:   method getEvent()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[64,24] cannot find symbol
+  symbol:   method getEvent()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[65,24] cannot find symbol
+  symbol:   method getNumTickets()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[66,24] cannot find symbol
+  symbol:   method getPriceTier()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[67,24] cannot find symbol
+  symbol:   method getTotalAmount()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[68,24] cannot find symbol
+  symbol:   method getUser()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[69,24] cannot find symbol
+  symbol:   method getUser()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/security/JwtTokenProvider.java:[30,53] cannot find symbol
+  symbol:   method getId()
+  location: variable userPrincipal of type com.collegefest.booking.security.UserPrincipal
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[22,58] cannot find symbol
+  symbol:   method getId()
+  location: variable userPrincipal of type com.collegefest.booking.security.UserPrincipal
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[37,31] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.dto.response.UserResponseDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[38,25] cannot find symbol
+  symbol:   method getId()
+  location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[39,28] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[40,31] cannot find symbol
+  symbol:   method getFullName()
+  location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[41,34] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[42,27] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[43,33] cannot find symbol
+  symbol:   method getIsVerified()
+  location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[44,32] cannot find symbol
+  symbol:   method getCreatedAt()
+  location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[52,47] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.entity.QRMetadata
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[62,20] cannot find symbol
+  symbol:   method setQrCodeData(java.lang.String)
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[65,13] cannot find symbol
+  symbol:   variable log
+  location: class com.collegefest.booking.service.QRCodeService
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[70,13] cannot find symbol
+  symbol:   variable log
+  location: class com.collegefest.booking.service.QRCodeService
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[77,24] cannot find symbol
+  symbol:   method getBookingReference()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[78,24] cannot find symbol
+  symbol:   method getUser()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[79,24] cannot find symbol
+  symbol:   method getEvent()
+  location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[87,27] cannot find symbol
+  symbol:   method getIsUsed()
+  location: variable qr of type com.collegefest.booking.entity.QRMetadata
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[90,23] cannot find symbol
+  symbol:   method setIsUsed(boolean)
+  location: variable qr of type com.collegefest.booking.entity.QRMetadata
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[91,23] cannot find symbol
+  symbol:   method setUsedAt(java.time.LocalDateTime)
+  location: variable qr of type com.collegefest.booking.entity.QRMetadata
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[82,55] cannot find symbol
+  symbol:   method getVenueId()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[83,103] cannot find symbol
+  symbol:   method getVenueId()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[85,28] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[86,35] cannot find symbol
+  symbol:   method getEventName()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[87,37] cannot find symbol
+  symbol:   method getDescription()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[88,35] cannot find symbol
+  symbol:   method getEventType()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[90,35] cannot find symbol
+  symbol:   method getEventDate()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[91,41] cannot find symbol
+  symbol:   method getDurationMinutes()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[92,40] cannot find symbol
+  symbol:   method getBannerImageUrl()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[93,39] cannot find symbol
+  symbol:   method getOrganizerName()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[94,37] cannot find symbol
+  symbol:   method getMaxCapacity()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[95,40] cannot find symbol
+  symbol:   method getBookingOpensAt()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[96,41] cannot find symbol
+  symbol:   method getBookingClosesAt()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[103,20] cannot find symbol
+  symbol:   method getPriceTiers()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[103,56] cannot find symbol
+  symbol:   method getPriceTiers()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[104,20] cannot find symbol
+  symbol:   method getPriceTiers()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[105,48] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.entity.PriceTier
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[117,81] cannot find symbol
+  symbol:   method getId()
+  location: variable savedEvent of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[134,55] cannot find symbol
+  symbol:   method getVenueId()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[135,103] cannot find symbol
+  symbol:   method getVenueId()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[137,35] cannot find symbol
+  symbol:   method getEventName()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[138,37] cannot find symbol
+  symbol:   method getDescription()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[139,35] cannot find symbol
+  symbol:   method getEventType()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[140,14] cannot find symbol
+  symbol:   method setVenue(com.collegefest.booking.entity.Venue)
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[141,35] cannot find symbol
+  symbol:   method getEventDate()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[142,41] cannot find symbol
+  symbol:   method getDurationMinutes()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[143,40] cannot find symbol
+  symbol:   method getBannerImageUrl()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[144,39] cannot find symbol
+  symbol:   method getOrganizerName()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[145,37] cannot find symbol
+  symbol:   method getMaxCapacity()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[146,40] cannot find symbol
+  symbol:   method getBookingOpensAt()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[147,41] cannot find symbol
+  symbol:   method getBookingClosesAt()
+  location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[164,14] cannot find symbol
+  symbol:   method setStatus(com.collegefest.booking.entity.EventStatus)
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[184,53] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.dto.response.VenueResponseDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[185,26] cannot find symbol
+  symbol:   method getVenue()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[186,33] cannot find symbol
+  symbol:   method getVenue()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[187,31] cannot find symbol
+  symbol:   method getVenue()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[188,37] cannot find symbol
+  symbol:   method getVenue()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[189,40] cannot find symbol
+  symbol:   method getVenue()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[190,34] cannot find symbol
+  symbol:   method getVenue()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[193,57] cannot find symbol
+  symbol:   method getPriceTiers()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[194,50] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.dto.response.PriceTierResponseDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[204,32] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.dto.response.EventResponseDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[205,26] cannot find symbol
+  symbol:   method getId()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[206,33] cannot find symbol
+  symbol:   method getEventName()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[207,35] cannot find symbol
+  symbol:   method getDescription()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[208,33] cannot find symbol
+  symbol:   method getEventType()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[210,33] cannot find symbol
+  symbol:   method getEventDate()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[211,39] cannot find symbol
+  symbol:   method getDurationMinutes()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[212,38] cannot find symbol
+  symbol:   method getBannerImageUrl()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[213,37] cannot find symbol
+  symbol:   method getOrganizerName()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[214,35] cannot find symbol
+  symbol:   method getMaxCapacity()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[215,38] cannot find symbol
+  symbol:   method getBookingOpensAt()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[216,39] cannot find symbol
+  symbol:   method getBookingClosesAt()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[217,30] cannot find symbol
+  symbol:   method getStatus()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[219,33] cannot find symbol
+  symbol:   method getCreatedAt()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[38,22] invalid method reference
+  cannot find symbol
+    symbol:   method getSeatNumber()
+    location: class com.collegefest.booking.entity.SeatReservation
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[41,31] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.dto.response.SeatMapResponse
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[43,33] cannot find symbol
+  symbol:   method getEventName()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[44,35] cannot find symbol
+  symbol:   method getVenue()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[45,37] cannot find symbol
+  symbol:   method getMaxCapacity()
+  location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[59,22] invalid method reference
+  cannot find symbol
+    symbol:   method getSeatNumber()
+    location: class com.collegefest.booking.entity.SeatReservation
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[36,49] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.collegefest.booking.dto.request.RegisterRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[42,20] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable request of type com.collegefest.booking.dto.request.RegisterRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[42,91] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable request of type com.collegefest.booking.dto.request.RegisterRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[48,25] cannot find symbol
+  symbol:   method builder()
+  location: class com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[49,31] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.collegefest.booking.dto.request.RegisterRequestDTO
+[INFO] 100 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.527 s
+[INFO] Finished at: 2026-02-01T19:03:26+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project booking: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AdminDashboardController.java:[19,36] variable dashboardService not initialized in the default constructor
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/DashboardService.java:[40,38] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.dto.response.DashboardStatsResponse
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/dto/response/ApiResponse.java:[26,16] cannot infer type arguments for com.collegefest.booking.dto.response.ApiResponse<>
+[ERROR]   reason: cannot infer type-variable(s) T
+[ERROR]     (actual and formal argument lists differ in length)
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/dto/response/ApiResponse.java:[30,16] cannot infer type arguments for com.collegefest.booking.dto.response.ApiResponse<>
+[ERROR]   reason: cannot infer type-variable(s) T
+[ERROR]     (actual and formal argument lists differ in length)
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[29,45] cannot find symbol
+[ERROR]   symbol:   method getBookingReference()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[43,39] cannot find symbol
+[ERROR]   symbol:   method getEvent()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[61,24] cannot find symbol
+[ERROR]   symbol:   method getBookingReference()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[62,24] cannot find symbol
+[ERROR]   symbol:   method getEvent()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[64,24] cannot find symbol
+[ERROR]   symbol:   method getEvent()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[65,24] cannot find symbol
+[ERROR]   symbol:   method getNumTickets()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[66,24] cannot find symbol
+[ERROR]   symbol:   method getPriceTier()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[67,24] cannot find symbol
+[ERROR]   symbol:   method getTotalAmount()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[68,24] cannot find symbol
+[ERROR]   symbol:   method getUser()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/TicketService.java:[69,24] cannot find symbol
+[ERROR]   symbol:   method getUser()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/security/JwtTokenProvider.java:[30,53] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable userPrincipal of type com.collegefest.booking.security.UserPrincipal
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[22,58] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable userPrincipal of type com.collegefest.booking.security.UserPrincipal
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[37,31] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.dto.response.UserResponseDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[38,25] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[39,28] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[40,31] cannot find symbol
+[ERROR]   symbol:   method getFullName()
+[ERROR]   location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[41,34] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[42,27] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[43,33] cannot find symbol
+[ERROR]   symbol:   method getIsVerified()
+[ERROR]   location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/UserService.java:[44,32] cannot find symbol
+[ERROR]   symbol:   method getCreatedAt()
+[ERROR]   location: variable user of type com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[52,47] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.entity.QRMetadata
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[62,20] cannot find symbol
+[ERROR]   symbol:   method setQrCodeData(java.lang.String)
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[65,13] cannot find symbol
+[ERROR]   symbol:   variable log
+[ERROR]   location: class com.collegefest.booking.service.QRCodeService
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[70,13] cannot find symbol
+[ERROR]   symbol:   variable log
+[ERROR]   location: class com.collegefest.booking.service.QRCodeService
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[77,24] cannot find symbol
+[ERROR]   symbol:   method getBookingReference()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[78,24] cannot find symbol
+[ERROR]   symbol:   method getUser()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[79,24] cannot find symbol
+[ERROR]   symbol:   method getEvent()
+[ERROR]   location: variable booking of type com.collegefest.booking.entity.Booking
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[87,27] cannot find symbol
+[ERROR]   symbol:   method getIsUsed()
+[ERROR]   location: variable qr of type com.collegefest.booking.entity.QRMetadata
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[90,23] cannot find symbol
+[ERROR]   symbol:   method setIsUsed(boolean)
+[ERROR]   location: variable qr of type com.collegefest.booking.entity.QRMetadata
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/QRCodeService.java:[91,23] cannot find symbol
+[ERROR]   symbol:   method setUsedAt(java.time.LocalDateTime)
+[ERROR]   location: variable qr of type com.collegefest.booking.entity.QRMetadata
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[82,55] cannot find symbol
+[ERROR]   symbol:   method getVenueId()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[83,103] cannot find symbol
+[ERROR]   symbol:   method getVenueId()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[85,28] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[86,35] cannot find symbol
+[ERROR]   symbol:   method getEventName()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[87,37] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[88,35] cannot find symbol
+[ERROR]   symbol:   method getEventType()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[90,35] cannot find symbol
+[ERROR]   symbol:   method getEventDate()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[91,41] cannot find symbol
+[ERROR]   symbol:   method getDurationMinutes()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[92,40] cannot find symbol
+[ERROR]   symbol:   method getBannerImageUrl()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[93,39] cannot find symbol
+[ERROR]   symbol:   method getOrganizerName()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[94,37] cannot find symbol
+[ERROR]   symbol:   method getMaxCapacity()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[95,40] cannot find symbol
+[ERROR]   symbol:   method getBookingOpensAt()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[96,41] cannot find symbol
+[ERROR]   symbol:   method getBookingClosesAt()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[103,20] cannot find symbol
+[ERROR]   symbol:   method getPriceTiers()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[103,56] cannot find symbol
+[ERROR]   symbol:   method getPriceTiers()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[104,20] cannot find symbol
+[ERROR]   symbol:   method getPriceTiers()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[105,48] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.entity.PriceTier
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[117,81] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable savedEvent of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[134,55] cannot find symbol
+[ERROR]   symbol:   method getVenueId()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[135,103] cannot find symbol
+[ERROR]   symbol:   method getVenueId()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[137,35] cannot find symbol
+[ERROR]   symbol:   method getEventName()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[138,37] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[139,35] cannot find symbol
+[ERROR]   symbol:   method getEventType()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[140,14] cannot find symbol
+[ERROR]   symbol:   method setVenue(com.collegefest.booking.entity.Venue)
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[141,35] cannot find symbol
+[ERROR]   symbol:   method getEventDate()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[142,41] cannot find symbol
+[ERROR]   symbol:   method getDurationMinutes()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[143,40] cannot find symbol
+[ERROR]   symbol:   method getBannerImageUrl()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[144,39] cannot find symbol
+[ERROR]   symbol:   method getOrganizerName()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[145,37] cannot find symbol
+[ERROR]   symbol:   method getMaxCapacity()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[146,40] cannot find symbol
+[ERROR]   symbol:   method getBookingOpensAt()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[147,41] cannot find symbol
+[ERROR]   symbol:   method getBookingClosesAt()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.EventRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[164,14] cannot find symbol
+[ERROR]   symbol:   method setStatus(com.collegefest.booking.entity.EventStatus)
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[184,53] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.dto.response.VenueResponseDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[185,26] cannot find symbol
+[ERROR]   symbol:   method getVenue()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[186,33] cannot find symbol
+[ERROR]   symbol:   method getVenue()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[187,31] cannot find symbol
+[ERROR]   symbol:   method getVenue()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[188,37] cannot find symbol
+[ERROR]   symbol:   method getVenue()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[189,40] cannot find symbol
+[ERROR]   symbol:   method getVenue()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[190,34] cannot find symbol
+[ERROR]   symbol:   method getVenue()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[193,57] cannot find symbol
+[ERROR]   symbol:   method getPriceTiers()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[194,50] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.dto.response.PriceTierResponseDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[204,32] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.dto.response.EventResponseDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[205,26] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[206,33] cannot find symbol
+[ERROR]   symbol:   method getEventName()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[207,35] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[208,33] cannot find symbol
+[ERROR]   symbol:   method getEventType()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[210,33] cannot find symbol
+[ERROR]   symbol:   method getEventDate()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[211,39] cannot find symbol
+[ERROR]   symbol:   method getDurationMinutes()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[212,38] cannot find symbol
+[ERROR]   symbol:   method getBannerImageUrl()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[213,37] cannot find symbol
+[ERROR]   symbol:   method getOrganizerName()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[214,35] cannot find symbol
+[ERROR]   symbol:   method getMaxCapacity()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[215,38] cannot find symbol
+[ERROR]   symbol:   method getBookingOpensAt()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[216,39] cannot find symbol
+[ERROR]   symbol:   method getBookingClosesAt()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[217,30] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/EventController.java:[219,33] cannot find symbol
+[ERROR]   symbol:   method getCreatedAt()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[38,22] invalid method reference
+[ERROR]   cannot find symbol
+[ERROR]     symbol:   method getSeatNumber()
+[ERROR]     location: class com.collegefest.booking.entity.SeatReservation
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[41,31] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.dto.response.SeatMapResponse
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[43,33] cannot find symbol
+[ERROR]   symbol:   method getEventName()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[44,35] cannot find symbol
+[ERROR]   symbol:   method getVenue()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[45,37] cannot find symbol
+[ERROR]   symbol:   method getMaxCapacity()
+[ERROR]   location: variable event of type com.collegefest.booking.entity.Event
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/service/SeatService.java:[59,22] invalid method reference
+[ERROR]   cannot find symbol
+[ERROR]     symbol:   method getSeatNumber()
+[ERROR]     location: class com.collegefest.booking.entity.SeatReservation
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[36,49] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.RegisterRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[42,20] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.RegisterRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[42,91] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.RegisterRequestDTO
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[48,25] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.collegefest.booking.entity.User
+[ERROR] /C:/Users/Ashmit/Downloads/booking/src/main/java/com/collegefest/booking/controller/AuthController.java:[49,31] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.collegefest.booking.dto.request.RegisterRequestDTO
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

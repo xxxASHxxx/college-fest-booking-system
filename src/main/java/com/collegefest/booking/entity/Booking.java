@@ -37,7 +37,7 @@ public class Booking {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "price_tier_id", nullable = false)
     private PriceTier priceTier;
 

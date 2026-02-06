@@ -1,0 +1,42 @@
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+
+.empty-state-icon {
+    margin-bottom: 1.5rem;
+}
+
+.empty-state-emoji {
+    font-size: 4rem;
+    line-height: 1;
+}
+
+.empty-state-icon svg {
+    width: 4rem;
+    height: 4rem;
+    color: #9ca3af;
+}
+
+.empty-state-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.empty-state-description {
+    margin: 0 0 1.5rem;
+    max-width: 28rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.empty-state-action {
+    margin-top: 1rem;
+}

@@ -33,7 +33,7 @@ public class BookingService {
     private final SeatReservationRepository seatReservationRepository;
     private final TransactionRepository transactionRepository;
     private final BookingReferenceGenerator referenceGenerator;
-    private final EmailService emailService;
+
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public BookingResponseDTO createBooking(BookingRequestDTO request, Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -55,7 +55,8 @@ public class BookingService {
 
         // 2. Get price tier with pessimistic lock
         PriceTier priceTier = priceTierRepository.findByIdWithLock(request.getPriceTierId())
-                .orElseThrow(() -> new ResourceNotFoundException("Price tier not found with id: " + request.getPriceTierId()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Price tier not found with id: " + request.getPriceTierId()));
 
         // 3. Check seat availability
         if (priceTier.getAvailableSeats() < request.getNumTickets()) {
@@ -65,7 +66,7 @@ public class BookingService {
         // 4. Calculate total amount
         BigDecimal totalAmount = priceTier.getPrice().multiply(BigDecimal.valueOf(request.getNumTickets()));
 
-        // 5. Create booking with PENDING_PAYMENT status
+        // 5. Create booking - AUTO-CONFIRMED for offline mode
         Booking booking = Booking.builder()
                 .bookingReference(referenceGenerator.generate())
                 .user(user)
@@ -73,10 +74,10 @@ public class BookingService {
                 .priceTier(priceTier)
                 .numTickets(request.getNumTickets())
                 .totalAmount(totalAmount)
-                .bookingStatus(BookingStatus.PENDING_PAYMENT)
+                .bookingStatus(BookingStatus.CONFIRMED) // Auto-confirm for offline
                 .paymentMethod(request.getPaymentMethod())
-                .paymentStatus(PaymentStatus.PENDING)
-                .expiresAt(LocalDateTime.now().plusMinutes(10))
+                .paymentStatus(PaymentStatus.SUCCESS) // Auto-success for offline
+                .confirmedAt(LocalDateTime.now())
                 .build();
 
         // 6. Reserve seats
@@ -89,8 +90,7 @@ public class BookingService {
             // Check if seats are already reserved
             for (String seatNumber : request.getSeatNumbers()) {
                 boolean isReserved = seatReservationRepository.existsByEventIdAndSeatNumberAndReservationStatus(
-                        event.getId(), seatNumber, ReservationStatus.CONFIRMED
-                );
+                        event.getId(), seatNumber, ReservationStatus.CONFIRMED);
                 if (isReserved) {
                     throw new BookingException("Seat " + seatNumber + " is already booked");
                 }
@@ -104,7 +104,8 @@ public class BookingService {
                         .event(event)
                         .priceTier(priceTier)
                         .seatNumber(seatNumber)
-                        .reservationStatus(ReservationStatus.RESERVED)
+                        .reservationStatus(ReservationStatus.CONFIRMED) // Auto-confirm for offline
+                        .confirmedAt(LocalDateTime.now())
                         .build();
                 seatReservations.add(reservation);
             }

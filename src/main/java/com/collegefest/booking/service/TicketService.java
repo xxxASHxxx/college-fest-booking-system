@@ -3,8 +3,7 @@ package com.collegefest.booking.service;
 import com.collegefest.booking.entity.Booking;
 import com.collegefest.booking.exception.ResourceNotFoundException;
 import com.collegefest.booking.repository.BookingRepository;
-import com.collegefest.booking.util.QRCodeGenerator;
-import com.google.zxing.WriterException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +12,17 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 
-
 @Service
 @RequiredArgsConstructor
 public class TicketService {
 
     private final BookingRepository bookingRepository;
-    private final QRCodeGenerator qrCodeGenerator;
 
-    public byte[] generateTicketPDF(Long bookingId) throws IOException, WriterException {
+    public byte[] generateTicketPDF(Long bookingId) throws IOException {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + bookingId));
 
-        // Generate QR code for booking reference
-        String qrData = "BOOKING:" + booking.getBookingReference();
-        byte[] qrCodeImage = qrCodeGenerator.generateQRCodeImage(qrData, 200, 200);
-
-        // Create simple text-based ticket (Replace with iText PDF generation for production)
+        // Create simple text-based ticket (simplified for offline mode)
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         String ticketContent = generateTicketText(booking);
         outputStream.write(ticketContent.getBytes(StandardCharsets.UTF_8));
@@ -66,7 +59,6 @@ public class TicketService {
                 booking.getPriceTier().getTierName(),
                 booking.getTotalAmount(),
                 booking.getUser().getFullName(),
-                booking.getUser().getEmail()
-        );
+                booking.getUser().getEmail());
     }
 }

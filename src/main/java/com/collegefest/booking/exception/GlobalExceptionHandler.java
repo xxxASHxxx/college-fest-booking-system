@@ -43,17 +43,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(PaymentException.class)
-    public ResponseEntity<ErrorResponse> handlePaymentException(PaymentException ex) {
-        ErrorResponse error = new ErrorResponse(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
     @ExceptionHandler(OptimisticLockException.class)
     public ResponseEntity<ErrorResponse> handleOptimisticLockException(OptimisticLockException ex) {
         ErrorResponse error = new ErrorResponse(
-                "Booking conflict detected. The seats you selected may have been booked by someone else. Please try again."
-        );
+                "Booking conflict detected. The seats you selected may have been booked by someone else. Please try again.");
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
@@ -92,8 +85,7 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(
                 "An unexpected error occurred: " + ex.getMessage(),
                 ex.getClass().getSimpleName(),
-                LocalDateTime.now()
-        );
+                LocalDateTime.now());
         ex.printStackTrace(); // For debugging
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
