@@ -4,7 +4,7 @@ import { useToast } from '../hooks/useToast';
 import bookingService from '../services/bookingService';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import TicketCard from '../components/tickets/TicketCard';
+import TicketCard from '../components/ticket/TicketCard';
 import { FiCheck, FiDownload, FiMail, FiHome } from 'react-icons/fi';
 import { formatDate, formatTime, formatCurrency } from '../utils/formatters';
 import { trackPageView, trackBookingCompleted } from '../utils/analytics';
@@ -124,8 +124,8 @@ const BookingConfirmationPage = () => {
                         <div className="info-item">
                             <span className="info-label">Date & Time</span>
                             <span className="info-value">
-                {formatDate(booking.event.date)} at {formatTime(booking.event.date)}
-              </span>
+                                {formatDate(booking.event.date)} at {formatTime(booking.event.date)}
+                            </span>
                         </div>
 
                         <div className="info-item">
@@ -141,8 +141,8 @@ const BookingConfirmationPage = () => {
                         <div className="info-item">
                             <span className="info-label">Total Amount</span>
                             <span className="info-value highlight">
-                {formatCurrency(booking.totalAmount)}
-              </span>
+                                {formatCurrency(booking.totalAmount)}
+                            </span>
                         </div>
 
                         <div className="info-item">

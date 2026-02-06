@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
 import ticketService from '../../services/ticketService';
-import TicketCard from '../../components/tickets/TicketCard';
+import TicketCard from '../../components/ticket/TicketCard';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
 import Tabs from '../../components/common/Tabs';

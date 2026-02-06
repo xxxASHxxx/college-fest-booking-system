@@ -16,6 +16,37 @@ export const isValidPassword = (password) => {
     return REGEX_PATTERNS.PASSWORD.test(password);
 };
 
+// Password strength validation with detailed feedback
+export const validatePassword = (password) => {
+    const checks = {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    };
+
+    const score = Object.values(checks).filter(Boolean).length;
+    const feedback = [];
+
+    if (!checks.length) feedback.push('Use at least 8 characters');
+    if (!checks.uppercase) feedback.push('Include at least one uppercase letter');
+    if (!checks.lowercase) feedback.push('Include at least one lowercase letter');
+    if (!checks.number) feedback.push('Include at least one number');
+    if (!checks.special) feedback.push('Include at least one special character');
+
+    let level = 'weak';
+    if (score >= 5) level = 'strong';
+    else if (score >= 3) level = 'medium';
+
+    return {
+        isValid: score >= 3,
+        level,
+        score,
+        feedback,
+    };
+};
+
 // UPI ID validation
 export const isValidUPI = (upi) => {
     return REGEX_PATTERNS.UPI.test(upi);

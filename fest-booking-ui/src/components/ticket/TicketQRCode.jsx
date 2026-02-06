@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import QRCode from 'qrcode.react';
+import { QRCodeCanvas } from 'qrcode.react';
 import { Download, Share2 } from 'lucide-react';
 import { formatDate } from '../../utils/formatters';
 import { generateQRData } from '../../utils/helpers';
@@ -69,12 +69,11 @@ const TicketQRCode = ({ isOpen, onClose, ticket }) => {
                 {/* QR Code */}
                 <div className="flex justify-center" ref={qrRef}>
                     <div className="p-6 rounded-2xl backdrop-blur-lg bg-white border-4 border-white/20">
-                        <QRCode
+                        <QRCodeCanvas
                             value={qrData}
                             size={280}
                             level="H"
                             includeMargin={false}
-                            renderAs="canvas"
                         />
                     </div>
                 </div>

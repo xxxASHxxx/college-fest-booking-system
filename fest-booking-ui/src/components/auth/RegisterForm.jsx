@@ -198,8 +198,8 @@ const RegisterForm = ({ onClose }) => {
                                 />
                             </div>
                             <span className="text-xs text-white/70 capitalize">
-                {passwordStrength?.level}
-              </span>
+                                {passwordStrength?.level}
+                            </span>
                         </div>
 
                         {passwordStrength && passwordStrength.feedback.length > 0 && (
@@ -243,15 +243,15 @@ const RegisterForm = ({ onClose }) => {
                         className="w-5 h-5 mt-0.5 rounded border-white/20 bg-white/10 text-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-offset-0"
                     />
                     <span className="text-sm text-white/80 leading-relaxed">
-            I agree to the{' '}
+                        I agree to the{' '}
                         <a href="/terms" className="text-purple-400 hover:text-purple-300">
-              Terms of Service
-            </a>{' '}
+                            Terms of Service
+                        </a>{' '}
                         and{' '}
                         <a href="/privacy" className="text-purple-400 hover:text-purple-300">
-              Privacy Policy
-            </a>
-          </span>
+                            Privacy Policy
+                        </a>
+                    </span>
                 </label>
                 {errors.agreeToTerms && (
                     <p className="mt-1.5 text-sm text-red-400">{errors.agreeToTerms}</p>
@@ -275,9 +275,9 @@ const RegisterForm = ({ onClose }) => {
                     <div className="w-full border-t border-white/10"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-          <span className="px-4 backdrop-blur-lg bg-black/20 text-white/60">
-            Or sign up with
-          </span>
+                    <span className="px-4 backdrop-blur-lg bg-black/20 text-white/60">
+                        Or sign up with
+                    </span>
                 </div>
             </div>
 
