@@ -16,7 +16,7 @@ const Button = ({
   ...props
 }) => {
   const baseStyles = `
-    relative inline-flex items-center justify-center font-medium rounded-xl
+    relative inline-flex items-center justify-center font-semibold rounded-[14px]
     transition-all duration-200 ease-in-out
     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-dark
     disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
@@ -25,43 +25,32 @@ const Button = ({
 
   const variants = {
     primary: `
-      bg-gradient-to-r from-teal-accent to-primary-dark
-      text-white font-semibold
-      hover:shadow-glow-accent hover:scale-105
-      focus:ring-teal-accent
+      text-white
+      hover:scale-105 hover:-translate-y-0.5
       active:scale-95
     `,
     secondary: `
-      bg-secondary-dark border-2 border-teal-accent/30
-      text-white font-semibold
-      hover:bg-teal-accent/10 hover:border-teal-accent hover:shadow-glow-accent
-      focus:ring-teal-accent
+      border text-white
+      hover:scale-105
       active:scale-95
     `,
     outline: `
-      bg-transparent border-2 border-border-light
-      text-text-primary font-medium
-      hover:border-teal-accent hover:bg-teal-accent/5 hover:text-teal-accent
-      focus:ring-teal-accent
+      bg-transparent border-2 text-teal-accent
+      hover:scale-105
       active:scale-95
     `,
     ghost: `
-      bg-transparent text-text-secondary font-medium
+      bg-transparent text-text-secondary
       hover:bg-bg-card hover:text-teal-accent
-      focus:ring-teal-accent
     `,
     danger: `
-      bg-error border-2 border-error
-      text-white font-semibold
-      hover:bg-error-dark hover:shadow-lg
-      focus:ring-error
+      border-2 text-white
+      hover:scale-105 hover:shadow-lg
       active:scale-95
     `,
     success: `
-      bg-success border-2 border-success
-      text-white font-semibold
-      hover:bg-success-dark hover:shadow-lg
-      focus:ring-success
+      border-2 text-white
+      hover:scale-105 hover:shadow-lg
       active:scale-95
     `,
   };
@@ -76,12 +65,46 @@ const Button = ({
   const variantClass = variants[variant] || variants.primary;
   const sizeClass = sizes[size] || sizes.md;
 
+  // Dynamic inline styles for variant-specific backgrounds
+  const getVariantStyle = () => {
+    switch (variant) {
+      case 'primary':
+        return {
+          background: 'linear-gradient(135deg, #F48C06, #D00000)',
+          boxShadow: 'none',
+        };
+      case 'secondary':
+        return {
+          background: 'rgba(55, 6, 23, 0.35)',
+          borderColor: 'rgba(255, 186, 8, 0.25)',
+          backdropFilter: 'blur(8px)',
+        };
+      case 'outline':
+        return {
+          borderColor: 'rgba(244, 140, 6, 0.45)',
+        };
+      case 'danger':
+        return {
+          background: '#9D0208',
+          borderColor: '#9D0208',
+        };
+      case 'success':
+        return {
+          background: '#F48C06',
+          borderColor: '#F48C06',
+        };
+      default:
+        return {};
+    }
+  };
+
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
       className={`${baseStyles} ${variantClass} ${sizeClass} ${className}`}
+      style={getVariantStyle()}
       {...props}
     >
       {loading && (

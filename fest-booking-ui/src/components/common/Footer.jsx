@@ -46,9 +46,9 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="relative mt-20 bg-bg-darker border-t border-border">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <footer className="relative mt-20" style={{ background: '#03071E', borderTop: '1px solid rgba(255, 186, 8, 0.12)' }}>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
                     {/* Brand Section */}
                     <div className="lg:col-span-2">
                         <Link to="/" className="flex items-center gap-2 font-bold text-2xl mb-4">
@@ -75,7 +75,8 @@ const Footer = () => {
                                 <Mail size={18} className="mt-1 flex-shrink-0" />
                                 <a
                                     href={`mailto:${CONTACT_INFO.EMAIL}`}
-                                    className="hover:text-teal-accent transition-colors"
+                                    className="hover:text-warm-highlight transition-colors"
+                                    style={{ color: '#FAA307' }}
                                 >
                                     {CONTACT_INFO.EMAIL}
                                 </a>
@@ -194,6 +195,20 @@ const Footer = () => {
                         ))}
                     </div>
                 </div>
+            </div>
+
+            {/* Creator Attribution */}
+            <div className="border-t py-6 text-center" style={{ borderTop: '1px solid rgba(255, 186, 8, 0.08)' }}>
+                <p className="text-sm tracking-wider" style={{ color: 'rgba(248, 248, 248, 0.5)', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: '500' }}>
+                    Created by{' '}
+                    <span className="bg-gradient-to-r from-warm-highlight to-teal-accent bg-clip-text text-transparent font-semibold" style={{ background: 'linear-gradient(135deg, #FFBA08, #FAA307)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        Ashmit
+                    </span>
+                    {' '}and{' '}
+                    <span className="bg-gradient-to-r from-warm-highlight to-teal-accent bg-clip-text text-transparent font-semibold" style={{ background: 'linear-gradient(135deg, #FFBA08, #FAA307)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        Dhwani
+                    </span>
+                </p>
             </div>
         </footer>
     );

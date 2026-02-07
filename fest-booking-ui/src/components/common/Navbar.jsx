@@ -67,17 +67,17 @@ const Navbar = () => {
                     {/* Logo */}
                     <Link
                         to="/"
-                        className="flex items-center gap-2 hover:scale-105 transition-transform"
+                        className="flex items-center gap-3 hover:scale-105 transition-transform"
                     >
                         <img
                             src="/festify.png"
                             alt="FESTIFY logo"
-                            className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+                            className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-17 lg:w-17 object-contain"
                             onError={(e) => {
                                 e.target.style.display = 'none';
                             }}
                         />
-                        <span className="font-bold text-xl sm:text-2xl bg-gradient-to-r from-teal-accent to-warm-highlight bg-clip-text text-transparent">
+                        <span className="font-bold text-2xl sm:text-3xl md:text-4xl bg-gradient-to-r from-teal-accent to-warm-highlight bg-clip-text text-transparent">
                             FESTIFY
                         </span>
                     </Link>
