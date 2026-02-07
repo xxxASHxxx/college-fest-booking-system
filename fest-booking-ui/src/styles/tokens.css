@@ -1,0 +1,255 @@
+/* ========================================
+   FESTIFY - DESIGN TOKENS
+   ======================================== */
+
+/* ========== COLOR PALETTE ========== */
+:root {
+    /* Brand Colors - FESTIFY Warm Theme */
+    --primary-dark: #D00000;
+    --secondary-dark: #DC2F02;
+    --teal-accent: #FAA307;
+    --warm-highlight: #FFBA08;
+    --accent-tertiary: #E85D04;
+    --accent-attention: #F48C06;
+    --destructive: #9D0208;
+
+    /* Background Colors */
+    --bg-dark: #03071E;
+    --bg-darker: #03071E;
+    --bg-card: #370617;
+    --bg-card-hover: #6A040F;
+    --bg-input: #370617;
+    --bg-overlay: rgba(3, 7, 30, 0.95);
+
+    /* Text Colors */
+    --text-primary: #F8F8F8;
+    --text-secondary: #D1D1D1;
+    --text-muted: #A0A0A0;
+    --text-on-primary: #FFFFFF;
+    --text-on-accent: #FFFFFF;
+
+    /* Semantic Colors */
+    --success: #10B981;
+    --success-light: #34D399;
+    --success-dark: #059669;
+
+    --warning: #F59E0B;
+    --warning-light: #FBBF24;
+    --warning-dark: #D97706;
+
+    --error: #9D0208;
+    --error-light: #D00000;
+    --error-dark: #6A040F;
+
+    --info: #3B82F6;
+    --info-light: #60A5FA;
+    --info-dark: #2563EB;
+
+    /* Border Colors */
+    --border: #6A040F;
+    --border-light: #9D0208;
+    --border-lighter: #DC2F02;
+    --border-focus: var(--teal-accent);
+
+    /* ========== TYPOGRAPHY ========== */
+    /* Font Families */
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    /* Font Sizes */
+    --text-xs: 0.75rem;
+    /* 12px */
+    --text-sm: 0.875rem;
+    /* 14px */
+    --text-base: 1rem;
+    /* 16px */
+    --text-lg: 1.125rem;
+    /* 18px */
+    --text-xl: 1.25rem;
+    /* 20px */
+    --text-2xl: 1.5rem;
+    /* 24px */
+    --text-3xl: 2rem;
+    /* 32px */
+    --text-4xl: 3rem;
+    /* 48px */
+    --text-5xl: 4rem;
+    /* 64px */
+
+    /* Font Weights */
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-extrabold: 800;
+
+    /* Line Heights */
+    --leading-none: 1;
+    --leading-tight: 1.25;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.75;
+
+    /* ========== SPACING ========== */
+    --space-1: 0.125rem;
+    /* 2px */
+    --space-2: 0.25rem;
+    /* 4px */
+    --space-3: 0.5rem;
+    /* 8px */
+    --space-4: 0.75rem;
+    /* 12px */
+    --space-5: 1rem;
+    /* 16px */
+    --space-6: 1.25rem;
+    /* 20px */
+    --space-7: 1.5rem;
+    /* 24px */
+    --space-8: 2rem;
+    /* 32px */
+    --space-10: 2.5rem;
+    /* 40px */
+    --space-12: 3rem;
+    /* 48px */
+    --space-16: 4rem;
+    /* 64px */
+    --space-20: 5rem;
+    /* 80px */
+    --space-24: 6rem;
+    /* 96px */
+    --space-32: 8rem;
+    /* 128px */
+
+    /* ========== BORDER RADIUS ========== */
+    --radius-none: 0;
+    --radius-sm: 0.25rem;
+    /* 4px */
+    --radius-md: 0.5rem;
+    /* 8px */
+    --radius-lg: 0.75rem;
+    /* 12px */
+    --radius-xl: 1rem;
+    /* 16px */
+    --radius-2xl: 1.5rem;
+    /* 24px */
+    --radius-full: 9999px;
+
+    /* ========== SHADOWS ========== */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    --shadow-glow: 0 0 20px rgba(250, 163, 7, 0.2);
+    --shadow-glow-accent: 0 0 20px rgba(220, 47, 2, 0.3);
+    --shadow-glow-primary: 0 0 30px rgba(208, 0, 0, 0.4);
+
+    /* ========== TRANSITIONS ========== */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ========== Z-INDEX SCALE ========== */
+    --z-base: 0;
+    --z-dropdown: 10;
+    --z-sticky: 20;
+    --z-fixed: 30;
+    --z-modal-backdrop: 40;
+    --z-modal: 50;
+    --z-popover: 60;
+    --z-tooltip: 70;
+    --z-toast: 80;
+    --z-top: 100;
+
+    /* ========== LAYOUT ========== */
+    --container-sm: 640px;
+    --container-md: 768px;
+    --container-lg: 1024px;
+    --container-xl: 1280px;
+    --container-2xl: 1536px;
+
+    /* ========== GRADIENTS ========== */
+    --gradient-primary: linear-gradient(135deg, #D00000 0%, #9D0208 100%);
+    --gradient-accent: linear-gradient(135deg, #DC2F02 0%, #FAA307 100%);
+    --gradient-warm: linear-gradient(135deg, #9D0208 0%, #F48C06 50%, #FFBA08 100%);
+    --gradient-dark: linear-gradient(180deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+
+    /* Background Patterns */
+    --bg-pattern-grid: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ========== UTILITY CLASSES ========== */
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+}
+
+@media (min-width: 640px) {
+    .container {
+        max-width: var(--container-sm);
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: var(--container-md);
+        padding-left: var(--space-7);
+        padding-right: var(--space-7);
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: var(--container-lg);
+    }
+}
+
+@media (min-width: 1280px) {
+    .container {
+        max-width: var(--container-xl);
+    }
+}
+
+@media (min-width: 1536px) {
+    .container {
+        max-width: var(--container-2xl);
+    }
+}
+
+/* Glassmorphism Effects */
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Glow Effects */
+.glow {
+    box-shadow: var(--shadow-glow);
+}
+
+.glow-accent {
+    box-shadow: var(--shadow-glow-accent);
+}
+
+.glow-primary {
+    box-shadow: var(--shadow-glow-primary);
+}

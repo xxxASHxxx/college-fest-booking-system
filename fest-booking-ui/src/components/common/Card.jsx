@@ -1,54 +1,57 @@
 import React from 'react';
 
 const Card = ({
-                  children,
-                  variant = 'default',
-                  hoverable = false,
-                  className = '',
-                  onClick,
-                  ...props
-              }) => {
-    // Base glassmorphism styles
-    const baseStyles = `
-    backdrop-blur-lg rounded-2xl border shadow-xl
-    transition-all duration-300 ease-in-out
+  children,
+  variant = 'default',
+  hoverable = false,
+  onClick,
+  className = '',
+  padding = 'md',
+  ...props
+}) => {
+  const baseStyles = `
+    rounded-2xl border transition-all duration-300 ease-in-out
+    ${onClick || hoverable ? 'cursor-pointer' : ''}
   `;
 
-    // Variant styles
-    const variants = {
-        default: `
-      bg-white/10 border-white/20
-      ${hoverable ? 'hover:bg-white/15 hover:shadow-2xl hover:scale-[1.02]' : ''}
-      ${onClick ? 'cursor-pointer' : ''}
+  const variants = {
+    default: `
+      bg-bg-card border-border
+      ${hoverable || onClick ? 'hover:bg-bg-card-hover hover:border-border-light hover:shadow-lg hover:scale-[1.02]' : ''}
     `,
-        solid: `
-      bg-white/20 border-white/30
-      ${hoverable ? 'hover:bg-white/25 hover:shadow-2xl hover:scale-[1.02]' : ''}
-      ${onClick ? 'cursor-pointer' : ''}
+    glass: `
+      bg-bg-card/50 backdrop-blur-lg border-border/50
+      ${hoverable || onClick ? 'hover:bg-bg-card/70 hover:border-border-light hover:shadow-glow' : ''}
     `,
-        gradient: `
-      bg-gradient-to-br from-purple-500/20 to-blue-500/20 border-white/20
-      ${hoverable ? 'hover:from-purple-500/30 hover:to-blue-500/30 hover:shadow-2xl hover:scale-[1.02]' : ''}
-      ${onClick ? 'cursor-pointer' : ''}
+    primary: `
+      bg-gradient-to-br from-primary-dark to-secondary-dark border-teal-accent/30
+      ${hoverable || onClick ? 'hover:border-teal-accent hover:shadow-glow-accent' : ''}
     `,
-        dark: `
-      bg-black/30 border-white/10
-      ${hoverable ? 'hover:bg-black/40 hover:shadow-2xl hover:scale-[1.02]' : ''}
-      ${onClick ? 'cursor-pointer' : ''}
+    outline: `
+      bg-transparent border-border-light
+      ${hoverable || onClick ? 'hover:bg-bg-card/30 hover:border-teal-accent' : ''}
     `,
-    };
+  };
 
-    const variantClass = variants[variant] || variants.default;
+  const paddings = {
+    none: '',
+    sm: 'p-4',
+    md: 'p-6',
+    lg: 'p-8',
+  };
 
-    return (
-        <div
-            onClick={onClick}
-            className={`${baseStyles} ${variantClass} ${className}`}
-            {...props}
-        >
-            {children}
-        </div>
-    );
+  const variantClass = variants[variant] || variants.default;
+  const paddingClass = paddings[padding] || paddings.md;
+
+  return (
+    <div
+      onClick={onClick}
+      className={`${baseStyles} ${variantClass} ${paddingClass} ${className}`}
+      {...props}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default Card;

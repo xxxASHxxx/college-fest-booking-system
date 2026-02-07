@@ -1,56 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Search, Filter, Calendar, MapPin, Tag, X } from 'lucide-react';
 import eventService from '../services/eventService';
 import EventCard from '../components/events/EventCard';
-import EventFilters from '../components/events/EventFilters';
-import SearchBar from '../components/common/SearchBar';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import Pagination from '../components/common/Pagination';
-import EmptyState from '../components/common/EmptyState';
+import Button from '../components/common/Button';
+import Chip from '../components/common/Chip';
+import Input from '../components/common/Input';
 import { trackPageView } from '../utils/analytics';
-import { FiFilter } from 'react-icons/fi';
-import './EventsPage.css';
 
 const EventsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [showFilters, setShowFilters] = useState(false);
-
     const [filters, setFilters] = useState({
         search: searchParams.get('search') || '',
         category: searchParams.get('category') || '',
         status: searchParams.get('status') || '',
-        minPrice: searchParams.get('minPrice') || '',
-        maxPrice: searchParams.get('maxPrice') || '',
-        startDate: searchParams.get('startDate') || '',
-        endDate: searchParams.get('endDate') || '',
-        sortBy: searchParams.get('sortBy') || 'date',
-        sortOrder: searchParams.get('sortOrder') || 'asc',
     });
+    const [showFilters, setShowFilters] = useState(false);
+
+    const categories = ['Music', 'Tech', 'Sports', 'Cultural', 'Workshop', 'Competition'];
+    const statuses = [
+        { label: 'Upcoming', value: 'upcoming' },
+        { label: 'This Week', value: 'this_week' },
+        { label: 'This Month', value: 'this_month' },
+    ];
 
     useEffect(() => {
         trackPageView('Events');
-    }, []);
-
-    useEffect(() => {
         fetchEvents();
-    }, [filters, currentPage]);
+    }, [searchParams]);
 
     const fetchEvents = async () => {
         setLoading(true);
         try {
-            const result = await eventService.getEvents({
-                ...filters,
-                page: currentPage,
-                size: 12,
-            });
+            const params = {
+                search: searchParams.get('search') || undefined,
+                category: searchParams.get('category') || undefined,
+                status: searchParams.get('status') || 'upcoming',
+                size: 20,
+            };
 
-            if (result.success) {
-                setEvents(result.data.content || result.data);
-                setTotalPages(result.data.totalPages || 1);
+            const response = await eventService.getEvents(params);
+            if (response.success) {
+                setEvents(response.data.content || response.data || []);
             }
         } catch (error) {
             console.error('Failed to fetch events:', error);
@@ -59,156 +53,190 @@ const EventsPage = () => {
         }
     };
 
-    const handleFilterChange = (newFilters) => {
-        setFilters(newFilters);
-        setCurrentPage(0);
-
-        // Update URL params
-        const params = {};
-        Object.keys(newFilters).forEach((key) => {
-            if (newFilters[key]) {
-                params[key] = newFilters[key];
-            }
-        });
-        setSearchParams(params);
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const newParams = new URLSearchParams(searchParams);
+        if (filters.search) {
+            newParams.set('search', filters.search);
+        } else {
+            newParams.delete('search');
+        }
+        setSearchParams(newParams);
     };
 
-    const handleSearch = (query) => {
-        handleFilterChange({ ...filters, search: query });
+    const handleFilterChange = (key, value) => {
+        const newParams = new URLSearchParams(searchParams);
+        if (value) {
+            newParams.set(key, value);
+        } else {
+            newParams.delete(key);
+        }
+        setSearchParams(newParams);
+        setFilters((prev) => ({ ...prev, [key]: value }));
     };
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    const clearFilters = () => {
+        setSearchParams({});
+        setFilters({ search: '', category: '', status: '' });
     };
+
+    const activeFiltersCount = [filters.category, filters.status].filter(Boolean).length;
 
     return (
-        <div className="events-page">
-            <div className="events-container">
+        <div className="min-h-screen py-8">
+            <div className="container">
                 {/* Header */}
-                <div className="events-header">
-                    <div className="events-header-content">
-                        <h1 className="events-title">Discover Events</h1>
-                        <p className="events-subtitle">
-                            Find and book tickets for amazing events on campus
+                <div className="mb-8 space-y-4">
+                    <div>
+                        <h1 className="text-4xl md:text-5xl font-bold mb-2">Explore Events</h1>
+                        <p className="text-text-secondary text-lg">
+                            Discover exciting events happening on campus
                         </p>
                     </div>
 
-                    {/* Search Bar */}
-                    <div className="events-search">
-                        <SearchBar
-                            placeholder="Search events..."
-                            value={filters.search}
-                            onSearch={handleSearch}
-                            size="large"
-                        />
+                    {/* Search & Filter Bar */}
+                    <div className="flex flex-col md:flex-row gap-4">
+                        {/* Search */}
+                        <form onSubmit={handleSearch} className="flex-1">
+                            <div className="flex gap-2">
+                                <div className="flex-1 relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={20} />
+                                    <input
+                                        type="text"
+                                        placeholder="Search events..."
+                                        value={filters.search}
+                                        onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
+                                        className="w-full pl-10 pr-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-teal-accent focus:border-teal-accent transition-all"
+                                    />
+                                </div>
+                                <Button type="submit">Search</Button>
+                            </div>
+                        </form>
+
+                        {/* Filter Toggle */}
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowFilters(!showFilters)}
+                            icon={<Filter size={18} />}
+                            className="relative"
+                        >
+                            Filters
+                            {activeFiltersCount > 0 && (
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-teal-accent rounded-full text-xs flex items-center justify-center text-white">
+                                    {activeFiltersCount}
+                                </span>
+                            )}
+                        </Button>
                     </div>
-                </div>
 
-                {/* Main Content */}
-                <div className="events-content">
-                    {/* Filters Sidebar */}
-                    <aside className={`events-filters ${showFilters ? 'show' : ''}`}>
-                        <div className="filters-header">
-                            <h3>Filters</h3>
+                    {/* Active Filters */}
+                    {(filters.category || filters.status) && (
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-sm text-text-secondary">Active filters:</span>
+                            {filters.category && (
+                                <Chip
+                                    variant="teal"
+                                    onRemove={() => handleFilterChange('category', '')}
+                                >
+                                    {filters.category}
+                                </Chip>
+                            )}
+                            {filters.status && (
+                                <Chip
+                                    variant="teal"
+                                    onRemove={() => handleFilterChange('status', '')}
+                                >
+                                    {statuses.find((s) => s.value === filters.status)?.label || filters.status}
+                                </Chip>
+                            )}
                             <button
-                                className="filters-close"
-                                onClick={() => setShowFilters(false)}
+                                onClick={clearFilters}
+                                className="text-sm text-text-muted hover:text-error transition-colors flex items-center gap-1"
                             >
-                                ×
+                                <X size={14} />
+                                Clear all
                             </button>
                         </div>
-                        <EventFilters
-                            filters={filters}
-                            onChange={handleFilterChange}
-                        />
-                    </aside>
+                    )}
 
-                    {/* Events Grid */}
-                    <div className="events-main">
-                        {/* Toolbar */}
-                        <div className="events-toolbar">
-                            <button
-                                className="filter-toggle-btn"
-                                onClick={() => setShowFilters(!showFilters)}
-                            >
-                                <FiFilter /> Filters
-                            </button>
-
-                            <div className="events-count">
-                                {loading ? 'Loading...' : `${events.length} events found`}
-                            </div>
-
-                            <select
-                                className="sort-select"
-                                value={`${filters.sortBy}-${filters.sortOrder}`}
-                                onChange={(e) => {
-                                    const [sortBy, sortOrder] = e.target.value.split('-');
-                                    handleFilterChange({ ...filters, sortBy, sortOrder });
-                                }}
-                            >
-                                <option value="date-asc">Date (Earliest First)</option>
-                                <option value="date-desc">Date (Latest First)</option>
-                                <option value="price-asc">Price (Low to High)</option>
-                                <option value="price-desc">Price (High to Low)</option>
-                                <option value="name-asc">Name (A-Z)</option>
-                                <option value="name-desc">Name (Z-A)</option>
-                            </select>
-                        </div>
-
-                        {/* Events List */}
-                        {loading ? (
-                            <div className="events-loading">
-                                <LoadingSpinner size="large" />
-                            </div>
-                        ) : events.length > 0 ? (
-                            <>
-                                <div className="events-grid">
-                                    {events.map((event) => (
-                                        <EventCard key={event.id} event={event} />
+                    {/* Filter Panel */}
+                    {showFilters && (
+                        <div className="bg-bg-card border border-border rounded-2xl p-6 space-y-6 animate-slideDown">
+                            {/* Category Filter */}
+                            <div>
+                                <label className="block text-sm font-medium text-text-primary mb-3">
+                                    Category
+                                </label>
+                                <div className="flex flex-wrap gap-2">
+                                    {categories.map((cat) => (
+                                        <button
+                                            key={cat}
+                                            onClick={() => handleFilterChange('category', filters.category === cat.toLowerCase() ? '' : cat.toLowerCase())}
+                                            className={`px-4 py-2 rounded-xl font-medium transition-all ${filters.category === cat.toLowerCase()
+                                                ? 'bg-teal-accent text-white shadow-glow-accent'
+                                                : 'bg-bg-input border border-border text-text-secondary hover:border-teal-accent hover:text-teal-accent'
+                                                }`}
+                                        >
+                                            {cat}
+                                        </button>
                                     ))}
                                 </div>
+                            </div>
 
-                                {totalPages > 1 && (
-                                    <Pagination
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                        onPageChange={handlePageChange}
-                                    />
-                                )}
-                            </>
-                        ) : (
-                            <EmptyState
-                                icon="🎪"
-                                title="No events found"
-                                description="Try adjusting your filters or search query"
-                                action={{
-                                    label: 'Clear Filters',
-                                    onClick: () => handleFilterChange({
-                                        search: '',
-                                        category: '',
-                                        status: '',
-                                        minPrice: '',
-                                        maxPrice: '',
-                                        startDate: '',
-                                        endDate: '',
-                                        sortBy: 'date',
-                                        sortOrder: 'asc',
-                                    }),
-                                }}
-                            />
-                        )}
-                    </div>
+                            {/* Time Filter */}
+                            <div>
+                                <label className="block text-sm font-medium text-text-primary mb-3">
+                                    When
+                                </label>
+                                <div className="flex flex-wrap gap-2">
+                                    {statuses.map((status) => (
+                                        <button
+                                            key={status.value}
+                                            onClick={() => handleFilterChange('status', filters.status === status.value ? '' : status.value)}
+                                            className={`px-4 py-2 rounded-xl font-medium transition-all ${filters.status === status.value
+                                                ? 'bg-teal-accent text-white shadow-glow-accent'
+                                                : 'bg-bg-input border border-border text-text-secondary hover:border-teal-accent hover:text-teal-accent'
+                                                }`}
+                                        >
+                                            {status.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
-            </div>
 
-            {/* Filter Backdrop for Mobile */}
-            {showFilters && (
-                <div
-                    className="filters-backdrop"
-                    onClick={() => setShowFilters(false)}
-                />
-            )}
+                {/* Events Grid */}
+                {loading ? (
+                    <div className="flex justify-center py-20">
+                        <LoadingSpinner size="lg" />
+                    </div>
+                ) : events.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {events.map((event, index) => (
+                            <div key={event.id} className="animate-slideUp" style={{ animationDelay: `${index * 50}ms` }}>
+                                <EventCard event={event} />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-20">
+                        <div className="max-w-md mx-auto space-y-4">
+                            <div className="w-20 h-20 mx-auto bg-bg-card rounded-full flex items-center justify-center">
+                                <Search className="text-text-muted" size={40} />
+                            </div>
+                            <h3 className="text-2xl font-bold">No events found</h3>
+                            <p className="text-text-secondary">
+                                Try adjusting your filters or search query
+                            </p>
+                            <Button onClick={clearFilters} variant="outline">
+                                Clear Filters
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
