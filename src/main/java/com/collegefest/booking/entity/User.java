@@ -48,6 +48,12 @@ public class User {
     @Builder.Default
     private Boolean isVerified = false;
 
+    @Column(length = 100)
+    private String department; // For user demographics analytics (e.g., "CS", "ECE", "MECH")
+
+    @Column(name = "year_of_study")
+    private Integer yearOfStudy; // For user demographics analytics (1-4 or null for alumni/staff)
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

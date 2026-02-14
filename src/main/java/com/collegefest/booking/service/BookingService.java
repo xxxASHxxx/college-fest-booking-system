@@ -11,6 +11,7 @@ import com.collegefest.booking.repository.*;
 import com.collegefest.booking.security.UserPrincipal;
 import com.collegefest.booking.util.BookingReferenceGenerator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookingService {
 
     private final BookingRepository bookingRepository;
@@ -36,6 +38,7 @@ public class BookingService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public BookingResponseDTO createBooking(BookingRequestDTO request, Authentication authentication) {
+        log.info("Creating booking for event ID: {}, tickets: {}", request.getEventId(), request.getNumTickets());
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -118,6 +121,8 @@ public class BookingService {
 
         // 8. Save booking
         Booking savedBooking = bookingRepository.save(booking);
+        log.info("Booking created successfully - Reference: {}, User: {}, Event: {}",
+                savedBooking.getBookingReference(), user.getEmail(), event.getEventName());
 
         // 9. Create transaction record
         Transaction transaction = Transaction.builder()
@@ -201,6 +206,7 @@ public class BookingService {
 
     @Transactional
     public void cancelBooking(Long id, Authentication authentication) {
+        log.info("Cancellation request for booking ID: {}", id);
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Booking booking = bookingRepository.findById(id)
@@ -229,6 +235,8 @@ public class BookingService {
         }
 
         bookingRepository.save(booking);
+        log.info("Booking cancelled successfully - Reference: {}, Refund amount: {}",
+                booking.getBookingReference(), booking.getTotalAmount());
 
         // Create refund transaction
         Transaction refundTransaction = Transaction.builder()

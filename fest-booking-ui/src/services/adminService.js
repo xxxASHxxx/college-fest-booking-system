@@ -178,6 +178,38 @@ const adminService = {
         }
     },
 
+    // Get recent bookings
+    getRecentBookings: async (filters = {}) => {
+        try {
+            const params = new URLSearchParams();
+            if (filters.limit) params.append('limit', filters.limit);
+
+            return await apiClient.get(`/api/admin/bookings/recent?${params.toString()}`);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Failed to fetch recent bookings',
+                data: [], // Return empty array on error
+            };
+        }
+    },
+
+    // Get revenue data
+    getRevenueData: async (filters = {}) => {
+        try {
+            const params = new URLSearchParams();
+            if (filters.period) params.append('period', filters.period);
+
+            return await apiClient.get(`/api/admin/analytics/revenue?${params.toString()}`);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Failed to fetch revenue data',
+                data: [], // Return empty array on error
+            };
+        }
+    },
+
     // ========== REPORTS ==========
 
     // Generate report

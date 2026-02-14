@@ -5,6 +5,7 @@ import com.collegefest.booking.exception.ResourceNotFoundException;
 import com.collegefest.booking.repository.BookingRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -14,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TicketService {
 
     private final BookingRepository bookingRepository;

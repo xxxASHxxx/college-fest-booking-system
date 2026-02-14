@@ -1,0 +1,223 @@
+/* Analytics Dashboard Styling */
+.analytics-dashboard {
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
+}
+
+.analytics-header {
+    margin-bottom: 2rem;
+}
+
+.analytics-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff4444 0%, #ff8844 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.analytics-header p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 100, 100, 0.3);
+    box-shadow: 0 10px 40px rgba(255, 68, 68, 0.2);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.stat-icon.red {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+}
+
+.stat-icon.orange {
+    background: linear-gradient(135deg, #ff8844 0%, #ff4444 100%);
+}
+
+.stat-icon.green {
+    background: linear-gradient(135deg, #44ff88 0%, #00cc44 100%);
+}
+
+.stat-icon.blue {
+    background: linear-gradient(135deg, #4488ff 0%, #0044cc 100%);
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.stat-change {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.stat-change.positive {
+    color: #44ff88;
+}
+
+.stat-change.negative {
+    color: #ff4444;
+}
+
+/* Charts Grid */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.chart-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+}
+
+.chart-card h3 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.chart-card.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Table Styling */
+.analytics-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.analytics-table thead th {
+    background: rgba(255, 68, 68, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.analytics-table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.analytics-table thead th:last-child {
+    border-top-right-radius: 12px;
+}
+
+.analytics-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.analytics-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.analytics-table tbody td {
+    padding: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.event-name {
+    font-weight: 600;
+    color: #fff;
+}
+
+.utilization-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.utilization-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.utilization-fill.high {
+    background: linear-gradient(90deg, #ff4444 0%, #ff8844 100%);
+}
+
+.utilization-fill.medium {
+    background: linear-gradient(90deg, #ff8844 0%, #ffaa44 100%);
+}
+
+.utilization-fill.low {
+    background: linear-gradient(90deg, #44ff88 0%, #00cc44 100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .analytics-dashboard {
+        padding: 1rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-header h1 {
+        font-size: 2rem;
+    }
+}

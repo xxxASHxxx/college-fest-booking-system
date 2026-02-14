@@ -49,20 +49,29 @@ const LoginForm = ({ onClose }) => {
         setErrors({});
 
         try {
-            const result = await login(formData.email, formData.password, formData.rememberMe);
+            const result = await login({
+                email: formData.email,
+                password: formData.password,
+                rememberMe: formData.rememberMe, // Pass rememberMe here
+            });
 
             if (result.success) {
+                // The login function returns { success: true, data: { token, userId, email, fullName, role, user } }
+                // The user object is what we need for role checking
+                const userData = result.data.user || result.data;
+
                 // Redirect based on user role
-                if (result.user.role === 'ADMIN') {
-                    navigate('/admin');
+                if (userData.role === 'ADMIN') {
+                    navigate('/admin/dashboard');
                 } else {
                     navigate('/');
                 }
                 if (onClose) onClose();
             } else {
-                setErrors({ submit: result.error });
+                setErrors({ submit: result.error || 'Invalid email or password' });
             }
         } catch (error) {
+            console.error('Login error:', error);
             setErrors({ submit: 'An unexpected error occurred. Please try again.' });
         } finally {
             setIsLoading(false);
@@ -146,9 +155,9 @@ const LoginForm = ({ onClose }) => {
                     <div className="w-full border-t border-white/10"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-          <span className="px-4 backdrop-blur-lg bg-black/20 text-white/60">
-            Or continue with
-          </span>
+                    <span className="px-4 backdrop-blur-lg bg-black/20 text-white/60">
+                        Or continue with
+                    </span>
                 </div>
             </div>
 

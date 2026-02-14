@@ -11,6 +11,7 @@ import com.collegefest.booking.repository.UserRepository;
 import com.collegefest.booking.security.JwtTokenProvider;
 import com.collegefest.booking.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
@@ -30,8 +32,10 @@ public class AuthService {
 
     @Transactional
     public UserResponseDTO register(RegisterRequestDTO request) {
+        log.info("Registering new user with email: {}", request.getEmail());
         // Check if email already exists
         if (userRepository.existsByEmail(request.getEmail())) {
+            log.warn("Registration failed - email already exists: {}", request.getEmail());
             throw new DuplicateResourceException("Email is already registered");
         }
 
@@ -51,11 +55,13 @@ public class AuthService {
                 .build();
 
         User savedUser = userRepository.save(user);
+        log.info("Successfully registered user: {} with ID: {}", savedUser.getEmail(), savedUser.getId());
 
         return convertToUserResponse(savedUser);
     }
 
     public AuthResponseDTO login(LoginRequestDTO request) {
+        log.info("Login attempt for user: {}", request.getEmail());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
@@ -66,6 +72,7 @@ public class AuthService {
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        log.info("User logged in successfully: {} (Role: {})", user.getEmail(), user.getRole());
         return AuthResponseDTO.builder()
                 .token(jwt)
                 .type("Bearer")

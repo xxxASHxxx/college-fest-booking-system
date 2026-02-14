@@ -27,6 +27,7 @@ import SettingsPage from '../pages/user/SettingsPage';
 
 // Admin Pages
 import AdminDashboard from '../pages/admin/AdminDashboard';
+import AdminAnalyticsPage from '../pages/admin/AdminAnalyticsPage';
 import ManageEventsPage from '../pages/admin/ManageEventsPage';
 import CreateEventPage from '../pages/admin/CreateEventPage';
 import ManageBookingsPage from '../pages/admin/ManageBookingsPage';
@@ -65,6 +66,7 @@ const AppRoutes = () => {
                 <Route element={<AdminLayout />}>
                     <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                    <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
                     <Route path="/admin/events" element={<ManageEventsPage />} />
                     <Route path="/admin/events/create" element={<CreateEventPage />} />
                     <Route path="/admin/events/edit/:id" element={<CreateEventPage />} />

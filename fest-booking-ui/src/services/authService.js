@@ -7,9 +7,22 @@ const authService = {
         try {
             const result = await apiClient.post('/api/auth/register', userData);
 
-            if (result.success && result.data.token) {
-                setAuthToken(result.data.token);
-                localStorage.setItem('user', JSON.stringify(result.data.user));
+            if (result.success && result.data?.data) {
+                // Backend returns: { success: true, data: { token, userId, email, fullName, role } }
+                const authData = result.data.data;
+                setAuthToken(authData.token);
+
+                // Create user object from auth response
+                const user = {
+                    id: authData.userId,
+                    email: authData.email,
+                    fullName: authData.fullName,
+                    name: authData.fullName, // alias for compatibility
+                    role: authData.role,
+                };
+
+                localStorage.setItem('user', JSON.stringify(user));
+                return { success: true, data: { ...authData, user } };
             }
 
             return result;
@@ -26,9 +39,22 @@ const authService = {
         try {
             const result = await apiClient.post('/api/auth/login', credentials);
 
-            if (result.success && result.data.token) {
-                setAuthToken(result.data.token);
-                localStorage.setItem('user', JSON.stringify(result.data.user));
+            if (result.success && result.data?.data) {
+                // Backend returns: { success: true, data: { token, userId, email, fullName, role } }
+                const authData = result.data.data;
+                setAuthToken(authData.token);
+
+                // Create user object from auth response
+                const user = {
+                    id: authData.userId,
+                    email: authData.email,
+                    fullName: authData.fullName,
+                    name: authData.fullName, // alias for compatibility
+                    role: authData.role,
+                };
+
+                localStorage.setItem('user', JSON.stringify(user));
+                return { success: true, data: { ...authData, user } };
             }
 
             return result;
@@ -60,8 +86,23 @@ const authService = {
         try {
             const result = await apiClient.get('/api/auth/me');
 
-            if (result.success && result.data) {
-                localStorage.setItem('user', JSON.stringify(result.data));
+            if (result.success && result.data?.data) {
+                // Backend returns nested structure
+                const userData = result.data.data;
+
+                // Create normalized user object
+                const user = {
+                    id: userData.id,
+                    email: userData.email,
+                    fullName: userData.fullName,
+                    name: userData.fullName,
+                    phoneNumber: userData.phoneNumber,
+                    role: userData.role,
+                    isVerified: userData.isVerified,
+                };
+
+                localStorage.setItem('user', JSON.stringify(user));
+                return { success: true, data: user };
             }
 
             return result;

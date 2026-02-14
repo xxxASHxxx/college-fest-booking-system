@@ -4,6 +4,7 @@ import com.collegefest.booking.dto.response.ApiResponse;
 import com.collegefest.booking.dto.response.SeatMapResponse;
 import com.collegefest.booking.service.SeatService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/seats")
 @RequiredArgsConstructor
+@Slf4j
 public class SeatController {
 
     private final SeatService seatService;

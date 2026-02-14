@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import authService from '../services/authService';
-import { setAuthToken, clearAuthToken } from '../utils/helpers';
+import { clearAuthToken } from '../utils/helpers';
 
 export const AuthContext = createContext(null);
 
@@ -15,21 +15,32 @@ export const AuthProvider = ({ children }) => {
             const token = localStorage.getItem('authToken');
             const storedUser = authService.getStoredUser();
 
+            console.log('[AuthContext] Initializing with token:', token ? 'exists' : 'none', 'user:', storedUser);
+
             if (token && storedUser) {
+                // Immediately set user from localStorage (don't wait for API call)
                 setUser(storedUser);
                 setIsAuthenticated(true);
+                console.log('[AuthContext] Set user from localStorage:', storedUser.role);
 
-                // Verify token validity
+                // Verify token validity with backend
                 try {
                     const result = await authService.getCurrentUser();
                     if (result.success) {
                         setUser(result.data);
+                        console.log('[AuthContext] Verified user from API:', result.data.role);
                     } else {
                         // Token invalid, clear auth
-                        await logout();
+                        console.log('[AuthContext] Token invalid, clearing auth');
+                        setUser(null);
+                        setIsAuthenticated(false);
+                        clearAuthToken();
                     }
                 } catch (error) {
-                    await logout();
+                    console.log('[AuthContext] API verification failed, clearing auth');
+                    setUser(null);
+                    setIsAuthenticated(false);
+                    clearAuthToken();
                 }
             }
 
@@ -37,7 +48,8 @@ export const AuthProvider = ({ children }) => {
         };
 
         initializeAuth();
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // Empty deps - only run once on mount
 
     // Login
     const login = useCallback(async (credentials) => {
@@ -45,6 +57,7 @@ export const AuthProvider = ({ children }) => {
             const result = await authService.login(credentials);
 
             if (result.success) {
+                console.log('[AuthContext] Login success, setting user:', result.data.user);
                 setUser(result.data.user);
                 setIsAuthenticated(true);
                 return { success: true, data: result.data };

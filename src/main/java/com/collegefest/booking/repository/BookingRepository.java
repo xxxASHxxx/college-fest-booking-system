@@ -16,13 +16,15 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     Optional<Booking> findByBookingReference(String bookingReference);
 
-    List<Booking> findByUserIdOrderByBookedAtDesc(Long userId);
+    // Find all bookings by user ID, ordered by booking date (most recent first)
+    @Query("SELECT b FROM Booking b WHERE b.user.id = :userId ORDER BY b.bookedAt DESC")
+    List<Booking> findByUserIdOrderByBookedAtDesc(@Param("userId") Long userId);
 
     List<Booking> findByEventId(Long eventId);
 
     List<Booking> findByBookingStatusAndExpiresAtBefore(BookingStatus status, LocalDateTime dateTime);
 
-    @Query("SELECT b FROM Booking b JOIN FETCH b.event JOIN FETCH b.priceTier WHERE b.userId = :userId")
+    @Query("SELECT b FROM Booking b JOIN FETCH b.event JOIN FETCH b.priceTier WHERE b.user.id = :userId")
     List<Booking> findByUserIdWithDetails(@Param("userId") Long userId);
 
     Long countByEventIdAndBookingStatus(Long eventId, BookingStatus status);

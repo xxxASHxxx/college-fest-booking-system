@@ -5,14 +5,13 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "price_tiers",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"event_id", "tier_name"}),
-        indexes = @Index(name = "idx_event_id", columnList = "event_id")
-)
+@Table(name = "price_tiers", uniqueConstraints = @UniqueConstraint(columnNames = { "event_id",
+        "tier_name" }), indexes = @Index(name = "idx_event_id", columnList = "event_id"))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -49,6 +48,9 @@ public class PriceTier {
 
     @Column(name = "color_code", length = 7)
     private String colorCode;
+
+    @Column(name = "valid_until")
+    private LocalDateTime validUntil; // Optional early bird deadline
 
     @OneToMany(mappedBy = "priceTier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default

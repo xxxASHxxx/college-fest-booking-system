@@ -13,17 +13,18 @@ export default defineConfig(({ mode }) => {
         // Path resolution
         resolve: {
             alias: {
-                '@': path.resolve(__dirname, './src'),
-                '@components': path.resolve(__dirname, './src/components'),
-                '@pages': path.resolve(__dirname, './src/pages'),
-                '@hooks': path.resolve(__dirname, './src/hooks'),
-                '@contexts': path.resolve(__dirname, './src/contexts'),
-                '@services': path.resolve(__dirname, './src/services'),
-                '@utils': path.resolve(__dirname, './src/utils'),
-                '@styles': path.resolve(__dirname, './src/styles'),
-                '@assets': path.resolve(__dirname, './src/assets'),
+                '@': path.resolve(__dirname, './fest-booking-ui/src'),
+                '@components': path.resolve(__dirname, './fest-booking-ui/src/components'),
+                '@pages': path.resolve(__dirname, './fest-booking-ui/src/pages'),
+                '@hooks': path.resolve(__dirname, './fest-booking-ui/src/hooks'),
+                '@contexts': path.resolve(__dirname, './fest-booking-ui/src/contexts'),
+                '@services': path.resolve(__dirname, './fest-booking-ui/src/services'),
+                '@utils': path.resolve(__dirname, './fest-booking-ui/src/utils'),
+                '@styles': path.resolve(__dirname, './fest-booking-ui/src/styles'),
+                '@assets': path.resolve(__dirname, './fest-booking-ui/src/assets'),
             },
         },
+
 
         // Server configuration
         server: {
@@ -66,6 +67,17 @@ export default defineConfig(({ mode }) => {
         // Optimize dependencies
         optimizeDeps: {
             include: ['react', 'react-dom', 'react-router-dom'],
+            esbuildOptions: {
+                loader: {
+                    '.js': 'jsx',
+                },
+            },
+        },
+
+        // Treat .js files as JSX (project uses JSX in .js files)
+        esbuild: {
+            loader: 'jsx',
+            include: /fest-booking-ui\/src\/.*\.js$/,
         },
 
         // Define global constants
