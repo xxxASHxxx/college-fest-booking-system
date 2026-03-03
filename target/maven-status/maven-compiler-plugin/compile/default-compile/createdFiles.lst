@@ -32,6 +32,7 @@ com\collegefest\booking\repository\UserRepository.class
 com\collegefest\booking\entity\BookingStatus.class
 com\collegefest\booking\controller\EventController.class
 com\collegefest\booking\util\BookingReferenceGenerator.class
+com\collegefest\booking\config\DataInitializer.class
 com\collegefest\booking\dto\response\AuthResponseDTO.class
 com\collegefest\booking\entity\SeatReservation.class
 com\collegefest\booking\dto\response\VenueResponseDTO$VenueResponseDTOBuilder.class

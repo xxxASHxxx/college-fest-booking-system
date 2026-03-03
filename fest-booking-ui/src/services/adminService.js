@@ -169,7 +169,7 @@ const adminService = {
     // Get dashboard stats
     getDashboardStats: async () => {
         try {
-            return await apiClient.get('/api/admin/dashboard/stats');
+            return await apiClient.get('/api/admin/dashboard');
         } catch (error) {
             return {
                 success: false,

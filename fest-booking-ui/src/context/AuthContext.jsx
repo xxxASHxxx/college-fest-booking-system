@@ -15,33 +15,48 @@ export const AuthProvider = ({ children }) => {
             const token = localStorage.getItem('authToken');
             const storedUser = authService.getStoredUser();
 
-            console.log('[AuthContext] Initializing with token:', token ? 'exists' : 'none', 'user:', storedUser);
+            console.log('[AuthContext] Initializing auth state:', {
+                hasToken: !!token,
+                hasStoredUser: !!storedUser,
+                userRole: storedUser?.role,
+                userEmail: storedUser?.email
+            });
 
             if (token && storedUser) {
                 // Immediately set user from localStorage (don't wait for API call)
                 setUser(storedUser);
                 setIsAuthenticated(true);
-                console.log('[AuthContext] Set user from localStorage:', storedUser.role);
+                console.log('[AuthContext] Set user from localStorage:', {
+                    role: storedUser.role,
+                    email: storedUser.email,
+                    id: storedUser.id
+                });
 
                 // Verify token validity with backend
                 try {
+                    console.log('[AuthContext] Verifying token with backend...');
                     const result = await authService.getCurrentUser();
                     if (result.success) {
                         setUser(result.data);
-                        console.log('[AuthContext] Verified user from API:', result.data.role);
+                        console.log('[AuthContext] Token verified, user updated from API:', {
+                            role: result.data.role,
+                            email: result.data.email
+                        });
                     } else {
                         // Token invalid, clear auth
-                        console.log('[AuthContext] Token invalid, clearing auth');
+                        console.warn('[AuthContext] Token validation failed:', result.error);
                         setUser(null);
                         setIsAuthenticated(false);
                         clearAuthToken();
                     }
                 } catch (error) {
-                    console.log('[AuthContext] API verification failed, clearing auth');
+                    console.error('[AuthContext] API verification failed:', error);
                     setUser(null);
                     setIsAuthenticated(false);
                     clearAuthToken();
                 }
+            } else {
+                console.log('[AuthContext] No stored auth data found');
             }
 
             setLoading(false);
@@ -54,17 +69,24 @@ export const AuthProvider = ({ children }) => {
     // Login
     const login = useCallback(async (credentials) => {
         try {
+            console.log('[AuthContext] Attempting login for:', credentials.email);
             const result = await authService.login(credentials);
 
             if (result.success) {
-                console.log('[AuthContext] Login success, setting user:', result.data.user);
+                console.log('[AuthContext] Login successful:', {
+                    email: result.data.user.email,
+                    role: result.data.user.role,
+                    id: result.data.user.id
+                });
                 setUser(result.data.user);
                 setIsAuthenticated(true);
                 return { success: true, data: result.data };
             }
 
+            console.warn('[AuthContext] Login failed:', result.error);
             return result;
         } catch (error) {
+            console.error('[AuthContext] Login error:', error);
             return {
                 success: false,
                 error: error.message || 'Login failed',
@@ -95,11 +117,13 @@ export const AuthProvider = ({ children }) => {
     // Logout
     const logout = useCallback(async () => {
         try {
+            console.log('[AuthContext] Logging out user');
             await authService.logout();
         } finally {
             setUser(null);
             setIsAuthenticated(false);
             clearAuthToken();
+            console.log('[AuthContext] User logged out, auth state cleared');
         }
     }, []);
 

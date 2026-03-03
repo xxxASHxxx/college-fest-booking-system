@@ -21,11 +21,13 @@ const AdminDashboard = () => {
     const [recentBookings, setRecentBookings] = useState([]);
     const [revenueData, setRevenueData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         trackPageView('Admin Dashboard');
 
         if (user?.role !== 'ADMIN') {
+            console.log('[AdminDashboard] User is not admin, redirecting to home');
             navigate('/');
             return;
         }
@@ -35,18 +37,62 @@ const AdminDashboard = () => {
 
     const fetchDashboardData = async () => {
         setLoading(true);
+        setError(null);
+
         try {
+            console.log('[AdminDashboard] Fetching dashboard data...');
+
             const [statsRes, bookingsRes, revenueRes] = await Promise.all([
                 adminService.getDashboardStats(),
                 adminService.getRecentBookings({ limit: 10 }),
                 adminService.getRevenueData({ period: '30days' }),
             ]);
 
-            if (statsRes.success) setStats(statsRes.data);
-            if (bookingsRes.success) setRecentBookings(bookingsRes.data);
-            if (revenueRes.success) setRevenueData(revenueRes.data);
+            console.log('[AdminDashboard] Stats response:', statsRes);
+            console.log('[AdminDashboard] Bookings response:', bookingsRes);
+            console.log('[AdminDashboard] Revenue response:', revenueRes);
+
+            if (statsRes.success) {
+                setStats(statsRes.data);
+            } else {
+                console.error('[AdminDashboard] Failed to fetch stats:', statsRes.error);
+                // Set fallback stats
+                setStats({
+                    totalRevenue: 0,
+                    totalBookings: 0,
+                    activeEvents: 0,
+                    totalUsers: 0,
+                });
+            }
+
+            if (bookingsRes.success) {
+                setRecentBookings(bookingsRes.data || []);
+            } else {
+                console.error('[AdminDashboard] Failed to fetch bookings:', bookingsRes.error);
+                setRecentBookings([]);
+            }
+
+            if (revenueRes.success) {
+                setRevenueData(revenueRes.data || []);
+            } else {
+                console.error('[AdminDashboard] Failed to fetch revenue:', revenueRes.error);
+                setRevenueData([]);
+            }
+
         } catch (error) {
+            console.error('[AdminDashboard] Error fetching dashboard data:', error);
+            setError('Failed to load dashboard data. Please try again.');
             showError('Failed to load dashboard data');
+
+            // Set fallback data
+            setStats({
+                totalRevenue: 0,
+                totalBookings: 0,
+                activeEvents: 0,
+                totalUsers: 0,
+            });
+            setRecentBookings([]);
+            setRevenueData([]);
         } finally {
             setLoading(false);
         }
@@ -68,10 +114,24 @@ const AdminDashboard = () => {
                     <div>
                         <h1 className="dashboard-title">Dashboard</h1>
                         <p className="dashboard-subtitle">
-                            Welcome back, {user?.name}! Here's what's happening today.
+                            Welcome back, {user?.fullName || user?.name}! Here's what's happening today.
                         </p>
                     </div>
                 </div>
+
+                {/* Error Message */}
+                {error && (
+                    <div style={{
+                        padding: '1rem',
+                        marginBottom: '1rem',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: '0.5rem',
+                        color: '#ef4444',
+                    }}>
+                        {error}
+                    </div>
+                )}
 
                 {/* Stats Grid */}
                 <div className="stats-grid">
@@ -91,7 +151,7 @@ const AdminDashboard = () => {
                     />
                     <StatCard
                         title="Active Events"
-                        value={stats?.activeEvents || 0}
+                        value={stats?.activeEvents || stats?.totalEvents || 0}
                         change={stats?.eventsChange}
                         icon={<FiTrendingUp />}
                         color="warning"
