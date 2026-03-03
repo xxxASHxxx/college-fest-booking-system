@@ -124,12 +124,14 @@ public class BookingService {
         log.info("Booking created successfully - Reference: {}, User: {}, Event: {}",
                 savedBooking.getBookingReference(), user.getEmail(), event.getEventName());
 
-        // 9. Create transaction record
+        // 9. Create transaction record (PAYMENT type, fully persisted as required)
         Transaction transaction = Transaction.builder()
                 .user(user)
                 .booking(savedBooking)
-                .transactionType(TransactionType.BOOKING)
+                .bookingReference(savedBooking.getBookingReference())
+                .transactionType(TransactionType.PAYMENT)
                 .amount(totalAmount)
+                .paymentMethod(request.getPaymentMethod())
                 .status(TransactionStatus.SUCCESS)
                 .build();
         transactionRepository.save(transaction);

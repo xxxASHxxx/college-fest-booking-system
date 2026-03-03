@@ -71,7 +71,7 @@ const EventsPage = () => {
     const fetchEvents = async () => {
         setLoading(true);
         try {
-            const response = await eventService.getEvents({ size: 50 });
+            const response = await eventService.getAllEvents({ size: 50 });
             const apiEvents = (response.success && (response.data.content || response.data)) || [];
 
             // Use API events if available, otherwise fallback to seed events

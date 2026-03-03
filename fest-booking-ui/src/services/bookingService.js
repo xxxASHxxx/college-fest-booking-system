@@ -47,15 +47,9 @@ const bookingService = {
     },
 
     // Get current user's bookings
-    getMyBookings: async (filters = {}) => {
+    getMyBookings: async () => {
         try {
-            const params = new URLSearchParams();
-
-            if (filters.status) params.append('status', filters.status);
-            if (filters.page !== undefined) params.append('page', filters.page);
-            if (filters.size !== undefined) params.append('size', filters.size);
-
-            return await apiClient.get(`/api/bookings/my-bookings?${params.toString()}`);
+            return await apiClient.get('/api/bookings/my-bookings');
         } catch (error) {
             return {
                 success: false,
@@ -65,9 +59,9 @@ const bookingService = {
     },
 
     // Cancel booking
-    cancelBooking: async (bookingId, reason = '') => {
+    cancelBooking: async (bookingId) => {
         try {
-            return await apiClient.post(`/api/bookings/${bookingId}/cancel`, { reason });
+            return await apiClient.put(`/api/bookings/${bookingId}/cancel`);
         } catch (error) {
             return {
                 success: false,

@@ -4,41 +4,31 @@ import { useToast } from '../hooks/useToast';
 import bookingService from '../services/bookingService';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import TicketCard from '../components/ticket/TicketCard';
-import { FiCheck, FiDownload, FiMail, FiHome } from 'react-icons/fi';
-import { formatDate, formatTime, formatCurrency } from '../utils/formatters';
-import { trackPageView, trackBookingCompleted } from '../utils/analytics';
-import Confetti from 'react-confetti';
+import { FiCheck, FiHome, FiTag } from 'react-icons/fi';
+import { formatCurrency } from '../utils/formatters';
+import { trackPageView } from '../utils/analytics';
 import './BookingConfirmationPage.css';
 
 const BookingConfirmationPage = () => {
     const { bookingId } = useParams();
     const navigate = useNavigate();
-    const { showError, showSuccess } = useToast();
+    const { showError } = useToast();
 
     const [booking, setBooking] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [showConfetti, setShowConfetti] = useState(true);
 
     useEffect(() => {
         trackPageView('Booking Confirmation');
         fetchBookingDetails();
-
-        // Hide confetti after 5 seconds
-        setTimeout(() => setShowConfetti(false), 5000);
     }, []);
-
-    useEffect(() => {
-        if (booking) {
-            trackBookingCompleted(booking.id, booking.totalAmount, booking.event.id);
-        }
-    }, [booking]);
 
     const fetchBookingDetails = async () => {
         try {
             const result = await bookingService.getBookingById(bookingId);
             if (result.success) {
-                setBooking(result.data);
+                // Unwrap ApiResponse: result.data may be { data: <dto> } or the dto directly
+                const bookingData = result.data?.data || result.data;
+                setBooking(bookingData);
             } else {
                 showError('Booking not found');
                 navigate('/');
@@ -48,28 +38,6 @@ const BookingConfirmationPage = () => {
             navigate('/');
         } finally {
             setLoading(false);
-        }
-    };
-
-    const handleDownloadTickets = async () => {
-        try {
-            const result = await bookingService.downloadTickets(bookingId);
-            if (result.success) {
-                showSuccess('Tickets downloaded successfully');
-            }
-        } catch (error) {
-            showError('Failed to download tickets');
-        }
-    };
-
-    const handleEmailTickets = async () => {
-        try {
-            const result = await bookingService.emailTickets(bookingId);
-            if (result.success) {
-                showSuccess('Tickets sent to your email');
-            }
-        } catch (error) {
-            showError('Failed to send tickets');
         }
     };
 
@@ -85,16 +53,30 @@ const BookingConfirmationPage = () => {
         return null;
     }
 
+    const paymentMethodLabel = {
+        CARD: 'Credit / Debit Card',
+        UPI: 'UPI',
+        NETBANKING: 'Net Banking',
+        WALLET: 'Wallet',
+    }[booking.paymentMethod] || booking.paymentMethod || '—';
+
     return (
         <div className="booking-confirmation-page">
-            {showConfetti && (
-                <Confetti
-                    width={window.innerWidth}
-                    height={window.innerHeight}
-                    recycle={false}
-                    numberOfPieces={500}
-                />
-            )}
+            {/* CSS confetti effect (no external package needed) */}
+            <div className="confetti-container" aria-hidden="true">
+                {Array.from({ length: 40 }).map((_, i) => (
+                    <div
+                        key={i}
+                        className="confetti-piece"
+                        style={{
+                            left: `${Math.random() * 100}%`,
+                            animationDelay: `${Math.random() * 3}s`,
+                            animationDuration: `${2 + Math.random() * 3}s`,
+                            backgroundColor: ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'][i % 6],
+                        }}
+                    />
+                ))}
+            </div>
 
             <div className="confirmation-container">
                 {/* Success Header */}
@@ -104,8 +86,15 @@ const BookingConfirmationPage = () => {
                     </div>
                     <h1 className="confirmation-title">Booking Confirmed! 🎉</h1>
                     <p className="confirmation-message">
-                        Your tickets have been booked successfully. Check your email for confirmation.
+                        Your tickets are booked and ready. Show your booking reference at the venue.
                     </p>
+                </div>
+
+                {/* Booking Reference Banner */}
+                <div className="booking-reference-banner">
+                    <FiTag />
+                    <span>Booking Reference: </span>
+                    <strong>{booking.bookingReference}</strong>
                 </div>
 
                 {/* Booking Details */}
@@ -118,24 +107,17 @@ const BookingConfirmationPage = () => {
                     <div className="booking-info-grid">
                         <div className="info-item">
                             <span className="info-label">Event</span>
-                            <span className="info-value">{booking.event.name}</span>
+                            <span className="info-value">{booking.eventName}</span>
                         </div>
 
                         <div className="info-item">
-                            <span className="info-label">Date & Time</span>
-                            <span className="info-value">
-                                {formatDate(booking.event.date)} at {formatTime(booking.event.date)}
-                            </span>
-                        </div>
-
-                        <div className="info-item">
-                            <span className="info-label">Venue</span>
-                            <span className="info-value">{booking.event.venue}</span>
+                            <span className="info-label">Ticket Tier</span>
+                            <span className="info-value">{booking.tierName}</span>
                         </div>
 
                         <div className="info-item">
                             <span className="info-label">Number of Tickets</span>
-                            <span className="info-value">{booking.quantity}</span>
+                            <span className="info-value">{booking.numTickets}</span>
                         </div>
 
                         <div className="info-item">
@@ -146,37 +128,23 @@ const BookingConfirmationPage = () => {
                         </div>
 
                         <div className="info-item">
-                            <span className="info-label">Payment Status</span>
-                            <span className="status-badge success">Paid</span>
+                            <span className="info-label">Payment Method</span>
+                            <span className="info-value">{paymentMethodLabel}</span>
                         </div>
-                    </div>
 
-                    {/* Action Buttons */}
-                    <div className="booking-actions">
-                        <Button
-                            variant="primary"
-                            icon={<FiDownload />}
-                            onClick={handleDownloadTickets}
-                        >
-                            Download Tickets
-                        </Button>
-                        <Button
-                            variant="outline"
-                            icon={<FiMail />}
-                            onClick={handleEmailTickets}
-                        >
-                            Email Tickets
-                        </Button>
-                    </div>
-                </div>
+                        <div className="info-item">
+                            <span className="info-label">Payment Status</span>
+                            <span className="status-badge success">Paid ✓</span>
+                        </div>
 
-                {/* Tickets */}
-                <div className="tickets-section">
-                    <h2 className="section-title">Your Tickets</h2>
-                    <div className="tickets-grid">
-                        {booking.tickets.map((ticket) => (
-                            <TicketCard key={ticket.id} ticket={ticket} booking={booking} />
-                        ))}
+                        {booking.seatNumbers && booking.seatNumbers.length > 0 && (
+                            <div className="info-item full-width">
+                                <span className="info-label">Seat Numbers</span>
+                                <span className="info-value">
+                                    {booking.seatNumbers.join(', ')}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -185,10 +153,10 @@ const BookingConfirmationPage = () => {
                     <h3>Important Information</h3>
                     <ul>
                         <li>Please arrive at least 30 minutes before the event starts</li>
-                        <li>Carry a valid ID proof along with your ticket</li>
+                        <li>Carry a valid ID proof along with your booking reference</li>
                         <li>Tickets are non-transferable and non-refundable</li>
-                        <li>Keep your QR code handy for quick entry</li>
-                        <li>For any queries, contact support at support@festbook.com</li>
+                        <li>Keep your booking reference handy for quick entry</li>
+                        <li>For any queries, contact the college fest helpdesk</li>
                     </ul>
                 </div>
 
@@ -205,9 +173,9 @@ const BookingConfirmationPage = () => {
                     <Button
                         variant="primary"
                         size="large"
-                        onClick={() => navigate('/my-bookings')}
+                        onClick={() => navigate('/my-tickets')}
                     >
-                        View All Bookings
+                        View My Tickets
                     </Button>
                 </div>
             </div>

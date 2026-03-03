@@ -28,12 +28,19 @@ public class Transaction {
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
+    @Column(name = "booking_reference", length = 20)
+    private String bookingReference;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type", nullable = false, length = 50)
     private TransactionType transactionType;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", length = 50)
+    private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)

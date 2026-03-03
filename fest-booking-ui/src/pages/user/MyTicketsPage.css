@@ -1,41 +1,273 @@
+/* ==============================================================
+   My Tickets Page – Glassmorphism-polished styles
+   ============================================================== */
+
 .my-tickets-page {
     min-height: 100vh;
     background: var(--background-primary);
-    padding: 2rem 0;
+    padding: 3rem 0;
 }
 
 .tickets-container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.75rem;
 }
 
+/* ---- Header ---- */
 .tickets-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
 }
 
+.page-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.3rem;
+    background: linear-gradient(135deg, #fff 30%, var(--primary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* ---- Search ---- */
 .tickets-search {
     max-width: 500px;
 }
 
+/* ---- Loading ---- */
 .tickets-loading {
     display: flex;
     justify-content: center;
     padding: 4rem;
 }
 
+/* ---- Grid ---- */
 .tickets-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1.5rem;
 }
 
-/* Responsive */
+/* ---- Tab Buttons ---- */
+.tickets-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tickets-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.3rem;
+    border-radius: 100px;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.tickets-tab-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+    background: rgba(139, 92, 246, 0.08);
+}
+
+.tickets-tab-btn.active {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(99, 102, 241, 0.15));
+    border-color: var(--primary-color);
+    color: #c4b5fd;
+    box-shadow: 0 0 16px rgba(139, 92, 246, 0.15);
+}
+
+.tickets-tab-count {
+    padding: 0.1rem 0.55rem;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.08);
+    color: inherit;
+}
+
+.tickets-tab-btn.active .tickets-tab-count {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* ==============================================================
+   Ticket Item Card – Premium ticket look with glassmorphism
+   ============================================================== */
+.ticket-item {
+    position: relative;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.ticket-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(139, 92, 246, 0.15);
+    border-color: rgba(139, 92, 246, 0.25);
+}
+
+/* Perforated circle edges */
+.ticket-edge-left,
+.ticket-edge-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--background-primary);
+    z-index: 2;
+}
+
+.ticket-edge-left {
+    left: -10px;
+    box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.25);
+}
+
+.ticket-edge-right {
+    right: -10px;
+    box-shadow: inset 3px 0 6px rgba(0, 0, 0, 0.25);
+}
+
+.ticket-body {
+    padding: 1.75rem 2rem;
+}
+
+/* Header row */
+.ticket-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.ticket-event-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.35;
+    flex: 1;
+}
+
+/* Dashed divider */
+.ticket-divider {
+    border: none;
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.08);
+    margin: 1rem 0 1.25rem;
+}
+
+/* Details grid */
+.ticket-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem 2rem;
+}
+
+.ticket-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.ticket-detail-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.ticket-detail-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.ticket-detail-value.ref {
+    color: #c4b5fd;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+}
+
+.ticket-detail-value.amount {
+    color: #4ade80;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.ticket-seats {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.9rem;
+}
+
+/* ---- Status badges ---- */
+.ticket-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+}
+
+.status-confirmed {
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.status-cancelled {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.status-pending {
+    background: rgba(234, 179, 8, 0.12);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.25);
+}
+
+.status-expired {
+    background: rgba(107, 114, 128, 0.12);
+    color: #9ca3af;
+    border: 1px solid rgba(107, 114, 128, 0.25);
+}
+
+/* ---- Responsive ---- */
 @media (max-width: 768px) {
     .tickets-container {
         padding: 0 1rem;
@@ -44,4 +276,43 @@
     .tickets-grid {
         grid-template-columns: 1fr;
     }
+
+    .ticket-body {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+    }
+}
+
+/* ---- Cancel Button ---- */
+.ticket-actions {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ticket-cancel-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    background: rgba(239, 68, 68, 0.08);
+    color: #f87171;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.ticket-cancel-btn:hover {
+    background: rgba(239, 68, 68, 0.18);
+    border-color: rgba(239, 68, 68, 0.45);
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.12);
+    color: #fca5a5;
 }

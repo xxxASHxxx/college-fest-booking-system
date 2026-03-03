@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Calendar, MapPin, TrendingUp, ArrowRight, Sparkles, Music, Laptop, Trophy, Palette } from 'lucide-react';
+import { Search, Calendar, MapPin, TrendingUp, ArrowRight, Sparkles, Music, Laptop, Trophy, Palette, ChevronLeft, ChevronRight } from 'lucide-react';
 import eventService from '../services/eventService';
 import seedEvents from '../data/seedEvents';
 import Button from '../components/common/Button';
@@ -11,7 +11,6 @@ import { trackPageView } from '../utils/analytics';
 
 const HomePage = () => {
     const [featuredEvents, setFeaturedEvents] = useState([]);
-    const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
@@ -24,24 +23,12 @@ const HomePage = () => {
     const fetchEvents = async () => {
         setLoading(true);
         try {
-            const [featuredRes, upcomingRes] = await Promise.all([
-                eventService.getEvents({ featured: true, size: 6 }),
-                eventService.getEvents({ status: 'upcoming', size: 8 }),
-            ]);
-
-            // Use API data if available, otherwise fallback to seed data
+            const featuredRes = await eventService.getAllEvents({ size: 20 });
             const featuredData = (featuredRes.success && (featuredRes.data.content || featuredRes.data)) || [];
-            const upcomingData = (upcomingRes.success && (upcomingRes.data.content || upcomingRes.data)) || [];
-
-            // If API returns empty data, use seed events as fallback
-            setFeaturedEvents(featuredData.length > 0 ? featuredData : seedEvents.slice(0, 6));
-            setUpcomingEvents(upcomingData.length > 0 ? upcomingData : seedEvents);
-
+            setFeaturedEvents(featuredData.length > 0 ? featuredData : seedEvents);
         } catch (error) {
             console.error('Failed to fetch events:', error);
-            // On error, use seed events as fallback
-            setFeaturedEvents(seedEvents.slice(0, 6));
-            setUpcomingEvents(seedEvents);
+            setFeaturedEvents(seedEvents);
         } finally {
             setLoading(false);
         }
@@ -55,10 +42,10 @@ const HomePage = () => {
     };
 
     const categories = [
-        { name: 'Music', icon: <Music size={20} />, value: 'music', gradient: 'from-purple-500 to-pink-500' },
-        { name: 'Tech', icon: <Laptop size={20} />, value: 'tech', gradient: 'from-blue-500 to-cyan-500' },
-        { name: 'Sports', icon: <Trophy size={20} />, value: 'sports', gradient: 'from-orange-500 to-red-500' },
-        { name: 'Cultural', icon: <Palette size={20} />, value: 'cultural', gradient: 'from-green-500 to-emerald-500' },
+        { name: 'Technical', icon: <Laptop size={20} />, value: 'technical' },
+        { name: 'Gaming', icon: <Trophy size={20} />, value: 'gaming' },
+        { name: 'Startup', icon: <TrendingUp size={20} />, value: 'startup' },
+        { name: 'Hackathon', icon: <Sparkles size={20} />, value: 'hackathon' },
     ];
 
     return (
@@ -205,43 +192,7 @@ const HomePage = () => {
                                     </Button>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {featuredEvents.map((event) => (
-                                        <div key={event.id} className="animate-slideUp">
-                                            <EventCard event={event} />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Upcoming Events Section */}
-                    {upcomingEvents.length > 0 && (
-                        <section className="section-padding">
-                            <div className="container">
-                                <div className="flex items-center justify-between mb-8">
-                                    <div>
-                                        <h2 className="text-3xl md:text-4xl font-bold mb-2">Upcoming Events</h2>
-                                        <p className="text-text-secondary">What's happening next on campus</p>
-                                    </div>
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => navigate('/events')}
-                                        icon={<ArrowRight size={18} />}
-                                        iconPosition="right"
-                                    >
-                                        See More
-                                    </Button>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                    {upcomingEvents.slice(0, 4).map((event, index) => (
-                                        <div key={event.id} className="animate-slideUp" style={{ animationDelay: `${index * 100}ms` }}>
-                                            <EventCard event={event} />
-                                        </div>
-                                    ))}
-                                </div>
+                                <FeaturedCarousel events={featuredEvents} />
                             </div>
                         </section>
                     )}
@@ -390,6 +341,147 @@ const HomePage = () => {
                     </section>
                 </>
             )}
+        </div>
+    );
+};
+
+// ---------------------------------------------------------------------------
+// Featured Carousel — horizontal scroll-snap with arrows & drag
+// ---------------------------------------------------------------------------
+const FeaturedCarousel = ({ events }) => {
+    const trackRef = useRef(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+
+    const checkScroll = useCallback(() => {
+        const el = trackRef.current;
+        if (!el) return;
+        setCanScrollLeft(el.scrollLeft > 8);
+        setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 8);
+    }, []);
+
+    useEffect(() => {
+        const el = trackRef.current;
+        if (!el) return;
+        checkScroll();
+        el.addEventListener('scroll', checkScroll, { passive: true });
+        window.addEventListener('resize', checkScroll);
+        return () => {
+            el.removeEventListener('scroll', checkScroll);
+            window.removeEventListener('resize', checkScroll);
+        };
+    }, [checkScroll, events]);
+
+    const scroll = (dir) => {
+        const el = trackRef.current;
+        if (!el) return;
+        const card = el.querySelector('.featured-card');
+        const cardWidth = card ? card.offsetWidth + 24 : 380;
+        el.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+    };
+
+    // Drag-to-scroll
+    const isDragging = useRef(false);
+    const startX = useRef(0);
+    const scrollStart = useRef(0);
+
+    const onPointerDown = (e) => {
+        isDragging.current = true;
+        startX.current = e.clientX;
+        scrollStart.current = trackRef.current.scrollLeft;
+        trackRef.current.style.cursor = 'grabbing';
+        trackRef.current.style.scrollSnapType = 'none';
+    };
+    const onPointerMove = (e) => {
+        if (!isDragging.current) return;
+        trackRef.current.scrollLeft = scrollStart.current - (e.clientX - startX.current);
+    };
+    const onPointerUp = () => {
+        isDragging.current = false;
+        if (trackRef.current) {
+            trackRef.current.style.cursor = 'grab';
+            trackRef.current.style.scrollSnapType = 'x mandatory';
+        }
+    };
+
+    const arrowStyle = {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        zIndex: 10,
+        width: '48px',
+        height: '48px',
+        borderRadius: '50%',
+        border: '1px solid rgba(255,186,8,0.25)',
+        background: 'rgba(3,7,30,0.85)',
+        backdropFilter: 'blur(10px)',
+        color: '#FFBA08',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+        transition: 'all 0.2s',
+    };
+
+    const onArrowEnter = (e) => {
+        e.currentTarget.style.background = 'rgba(255,186,8,0.15)';
+        e.currentTarget.style.borderColor = 'rgba(255,186,8,0.5)';
+    };
+    const onArrowLeave = (e) => {
+        e.currentTarget.style.background = 'rgba(3,7,30,0.85)';
+        e.currentTarget.style.borderColor = 'rgba(255,186,8,0.25)';
+    };
+
+    return (
+        <div style={{ position: 'relative' }}>
+            {canScrollLeft && (
+                <button onClick={() => scroll(-1)} aria-label="Scroll left" style={{ ...arrowStyle, left: '-20px' }} onMouseEnter={onArrowEnter} onMouseLeave={onArrowLeave}>
+                    <ChevronLeft size={24} />
+                </button>
+            )}
+            {canScrollRight && (
+                <button onClick={() => scroll(1)} aria-label="Scroll right" style={{ ...arrowStyle, right: '-20px' }} onMouseEnter={onArrowEnter} onMouseLeave={onArrowLeave}>
+                    <ChevronRight size={24} />
+                </button>
+            )}
+
+            <div
+                ref={trackRef}
+                className="featured-track"
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerLeave={onPointerUp}
+                style={{
+                    display: 'flex',
+                    gap: '24px',
+                    overflowX: 'auto',
+                    scrollSnapType: 'x mandatory',
+                    scrollBehavior: 'smooth',
+                    WebkitOverflowScrolling: 'touch',
+                    cursor: 'grab',
+                    paddingBottom: '12px',
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none',
+                }}
+            >
+                <style>{`.featured-track::-webkit-scrollbar { display: none; }`}</style>
+                {events.map((event, index) => (
+                    <div
+                        key={event.id}
+                        className="featured-card animate-slideUp"
+                        style={{
+                            flex: '0 0 380px',
+                            maxWidth: '380px',
+                            scrollSnapAlign: 'start',
+                            animationDelay: `${index * 60}ms`,
+                        }}
+                    >
+                        <EventCard event={event} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
