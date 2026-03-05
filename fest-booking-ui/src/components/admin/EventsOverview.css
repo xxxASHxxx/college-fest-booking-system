@@ -1,47 +1,49 @@
+/* ========== Events Overview - FESTIFY Dark Theme ========== */
 .events-overview {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .overview-empty {
-    height: 250px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: var(--text-secondary);
+    align-items: center;
+    height: 200px;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.9rem;
 }
 
 .overview-legend {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    background: var(--background-primary);
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
     border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .legend-color {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 3px;
+    flex-shrink: 0;
 }
 
 .legend-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
     flex: 1;
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    font-weight: 500;
 }
 
 .legend-value {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: rgba(255, 255, 255, 0.85);
 }

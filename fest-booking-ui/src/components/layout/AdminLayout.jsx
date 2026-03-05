@@ -7,12 +7,12 @@ const AdminLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <div className="admin-layout" style={{ display: 'flex', minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+        <div className="admin-layout" style={{ display: 'flex', minHeight: '100vh', background: '#03071E' }}>
             <AdminSidebar
                 isOpen={isSidebarOpen}
                 onClose={() => setIsSidebarOpen(false)}
             />
-            <main className="admin-content" style={{ flex: 1, padding: '2rem', marginLeft: '0', transition: 'margin-left 0.3s' }}>
+            <main className="admin-content" style={{ flex: 1, padding: '2rem', marginLeft: '260px', transition: 'margin-left 0.3s' }}>
                 {/* Mobile Menu Button */}
                 <button
                     onClick={() => setIsSidebarOpen(true)}

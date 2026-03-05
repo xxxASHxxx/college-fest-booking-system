@@ -39,27 +39,28 @@ const RevenueChart = ({ data }) => {
                 <AreaChart data={data}>
                     <defs>
                         <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="var(--primary-color)" stopOpacity={0.3} />
-                            <stop offset="95%" stopColor="var(--primary-color)" stopOpacity={0} />
+                            <stop offset="5%" stopColor="#FAA307" stopOpacity={0.3} />
+                            <stop offset="95%" stopColor="#FAA307" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
                     <XAxis
                         dataKey="date"
-                        stroke="var(--text-tertiary)"
-                        style={{ fontSize: '0.875rem' }}
+                        stroke="rgba(255,255,255,0.25)"
+                        style={{ fontSize: '0.75rem' }}
+                        tickFormatter={(v) => { try { return new Date(v).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }); } catch { return v; } }}
                     />
                     <YAxis
-                        stroke="var(--text-tertiary)"
-                        style={{ fontSize: '0.875rem' }}
+                        stroke="rgba(255,255,255,0.25)"
+                        style={{ fontSize: '0.75rem' }}
                         tickFormatter={(value) => `₹${value / 1000}k`}
                     />
                     <Tooltip content={<CustomTooltip />} />
                     <Area
                         type="monotone"
                         dataKey="revenue"
-                        stroke="var(--primary-color)"
-                        strokeWidth={3}
+                        stroke="#FAA307"
+                        strokeWidth={2.5}
                         fillOpacity={1}
                         fill="url(#colorRevenue)"
                     />

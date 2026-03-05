@@ -1,8 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '../common/Avatar';
-import Badge from '../common/Badge';
-import { formatDate, formatCurrency } from '../../utils/formatters';
 import './RecentBookings.css';
 
 const RecentBookings = ({ bookings }) => {
@@ -17,16 +14,23 @@ const RecentBookings = ({ bookings }) => {
     }
 
     const getStatusVariant = (status) => {
-        switch (status) {
-            case 'confirmed':
-                return 'success';
-            case 'pending':
-                return 'warning';
-            case 'cancelled':
-                return 'danger';
-            default:
-                return 'default';
+        const s = (status || '').toUpperCase();
+        switch (s) {
+            case 'CONFIRMED': return 'success';
+            case 'PENDING': case 'PENDING_PAYMENT': return 'warning';
+            case 'CANCELLED': return 'danger';
+            default: return 'default';
         }
+    };
+
+    const formatAmount = (amt) => {
+        if (!amt || isNaN(amt)) return '₹0';
+        return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amt);
+    };
+
+    const formatDate = (d) => {
+        if (!d) return '—';
+        try { return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); } catch { return '—'; }
     };
 
     return (
@@ -34,56 +38,52 @@ const RecentBookings = ({ bookings }) => {
             <div className="bookings-table">
                 <table>
                     <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Event</th>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>User</th>
+                            <th>Event</th>
+                            <th>Reference</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {bookings.map((booking) => (
-                        <tr key={booking.id}>
-                            <td>
-                                <div className="user-cell">
-                                    <Avatar
-                                        src={booking.user.avatar}
-                                        alt={booking.user.name}
-                                        size="sm"
-                                        name={booking.user.name}
-                                    />
-                                    <div className="user-info">
-                                        <span className="user-name">{booking.user.name}</span>
-                                        <span className="user-email">{booking.user.email}</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <span className="event-name">{booking.event.name}</span>
-                            </td>
-                            <td>
-                                <span className="booking-date">{formatDate(booking.createdAt)}</span>
-                            </td>
-                            <td>
-                                <span className="booking-amount">{formatCurrency(booking.totalAmount)}</span>
-                            </td>
-                            <td>
-                                <Badge variant={getStatusVariant(booking.status)}>
-                                    {booking.status}
-                                </Badge>
-                            </td>
-                            <td>
-                                <button
-                                    className="view-btn"
-                                    onClick={() => navigate(`/admin/bookings/${booking.id}`)}
-                                >
-                                    View
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
+                        {bookings.map((booking) => {
+                            const userName = booking.user?.name || booking.userName || 'Unknown';
+                            const eventName = booking.event?.name || booking.eventName || 'Unknown';
+                            const status = booking.status || booking.bookingStatus || 'CONFIRMED';
+                            const bookedDate = booking.createdAt || booking.bookedAt;
+                            const ref = booking.bookingReference || `#${booking.id}`;
+
+                            return (
+                                <tr key={booking.id}>
+                                    <td>
+                                        <div className="user-cell">
+                                            <div
+                                                style={{
+                                                    width: 32, height: 32, borderRadius: '50%',
+                                                    background: 'rgba(255,186,8,0.18)',
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                    color: '#FAA307', fontWeight: 700, fontSize: '0.8rem', flexShrink: 0,
+                                                }}
+                                            >
+                                                {userName.charAt(0).toUpperCase()}
+                                            </div>
+                                            <span className="user-name">{userName}</span>
+                                        </div>
+                                    </td>
+                                    <td><span className="event-name">{eventName}</span></td>
+                                    <td><span style={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>{ref}</span></td>
+                                    <td><span className="booking-date">{formatDate(bookedDate)}</span></td>
+                                    <td><span className="booking-amount">{formatAmount(booking.totalAmount)}</span></td>
+                                    <td>
+                                        <span className={`status-pill status-${getStatusVariant(status)}`}>
+                                            {status}
+                                        </span>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>

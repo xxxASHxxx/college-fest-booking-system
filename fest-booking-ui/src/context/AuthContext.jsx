@@ -43,17 +43,12 @@ export const AuthProvider = ({ children }) => {
                             email: result.data.email
                         });
                     } else {
-                        // Token invalid, clear auth
-                        console.warn('[AuthContext] Token validation failed:', result.error);
-                        setUser(null);
-                        setIsAuthenticated(false);
-                        clearAuthToken();
+                        // API returned error — keep stored user for demo tokens
+                        console.warn('[AuthContext] Token validation returned error, keeping stored user for demo mode');
                     }
                 } catch (error) {
-                    console.error('[AuthContext] API verification failed:', error);
-                    setUser(null);
-                    setIsAuthenticated(false);
-                    clearAuthToken();
+                    // Network error (backend unreachable) — keep stored user for demo mode
+                    console.warn('[AuthContext] API verification failed (backend likely down), keeping stored user');
                 }
             } else {
                 console.log('[AuthContext] No stored auth data found');

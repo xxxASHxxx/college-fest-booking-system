@@ -1,6 +1,7 @@
+/* ========== Admin Dashboard - FESTIFY Dark Theme ========== */
 .admin-dashboard {
     min-height: 100vh;
-    background: var(--background-primary);
+    background: #03071E;
     padding: 2rem 0;
 }
 
@@ -9,10 +10,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #03071E;
 }
 
 .admin-container {
-    max-width: 1600px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
@@ -20,6 +22,7 @@
     gap: 2rem;
 }
 
+/* ---- Header ---- */
 .dashboard-header {
     display: flex;
     justify-content: space-between;
@@ -27,35 +30,42 @@
 }
 
 .dashboard-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 800;
-    color: var(--text-primary);
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.4rem 0;
+    background: linear-gradient(135deg, #FFBA08, #FAA307);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .dashboard-subtitle {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.45);
     margin: 0;
+    font-weight: 400;
 }
 
+/* ---- Stats Grid ---- */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+/* ---- Dashboard Grid (charts) ---- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
     gap: 1.5rem;
 }
 
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 2rem;
-}
-
+/* ---- Cards ---- */
 .dashboard-card {
-    background: var(--background-secondary);
+    background: rgba(255, 255, 255, 0.03);
     border-radius: 16px;
-    padding: 2rem;
-    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 186, 8, 0.08);
 }
 
 .dashboard-card.large {
@@ -66,53 +76,65 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .card-title {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: rgba(255, 255, 255, 0.85);
     margin: 0;
 }
 
 .period-select {
-    padding: 0.5rem 1rem;
-    background: var(--background-primary);
-    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 186, 8, 0.12);
     border-radius: 8px;
-    color: var(--text-primary);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
     outline: none;
 }
 
+.period-select option {
+    background: #0a0d2e;
+    color: white;
+}
+
 .view-all-btn {
-    padding: 0.5rem 1rem;
-    background: var(--primary-light);
-    color: var(--primary-color);
-    border: none;
+    padding: 0.4rem 1rem;
+    background: rgba(255, 186, 8, 0.1);
+    color: #FAA307;
+    border: 1px solid rgba(255, 186, 8, 0.2);
     border-radius: 8px;
     font-weight: 600;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .view-all-btn:hover {
-    background: var(--primary-color);
-    color: white;
+    background: rgba(255, 186, 8, 0.2);
 }
 
-/* Responsive */
+/* ---- Responsive ---- */
 @media (max-width: 1200px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
 
-    .dashboard-card.large {
-        grid-column: span 1;
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .admin-dashboard {
+        margin-left: 0;
     }
 }
 
@@ -122,7 +144,7 @@
     }
 
     .dashboard-title {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     .stats-grid {

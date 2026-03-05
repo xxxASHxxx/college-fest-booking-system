@@ -12,10 +12,10 @@ const EventsOverview = ({ stats }) => {
     }
 
     const data = [
-        { name: 'Active', value: stats.active || 0, color: '#00B894' },
-        { name: 'Upcoming', value: stats.upcoming || 0, color: '#0984E3' },
-        { name: 'Past', value: stats.past || 0, color: '#636E72' },
-        { name: 'Cancelled', value: stats.cancelled || 0, color: '#D63031' },
+        { name: 'Active', value: stats.active || 0, color: '#FAA307' },
+        { name: 'Upcoming', value: stats.upcoming || 0, color: '#38bdf8' },
+        { name: 'Past', value: stats.past || 0, color: '#64748b' },
+        { name: 'Cancelled', value: stats.cancelled || 0, color: '#f87171' },
     ];
 
     const CustomTooltip = ({ active, payload }) => {
