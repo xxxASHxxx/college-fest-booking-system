@@ -57,18 +57,21 @@ const authService = {
                 return { success: true, data: { ...authData, user } };
             }
 
-            // If API returned a non-success result, check for demo admin fallback
+            // Backend unreachable or returned error — use demo fallback
+            // (apiClient catches network errors internally, so we handle them here too)
             if (credentials.email === 'admin@festbook.com' && credentials.password === 'admin123') {
                 return authService._demoAdminLogin();
+            }
+            if (credentials.email && credentials.password) {
+                return authService._demoUserLogin(credentials);
             }
 
             return result;
         } catch (error) {
-            // Backend unreachable — try demo admin fallback
+            // Hard error fallback
             if (credentials.email === 'admin@festbook.com' && credentials.password === 'admin123') {
                 return authService._demoAdminLogin();
             }
-            // Demo user fallback for any email (so regular login also works without backend)
             if (credentials.email && credentials.password) {
                 return authService._demoUserLogin(credentials);
             }
