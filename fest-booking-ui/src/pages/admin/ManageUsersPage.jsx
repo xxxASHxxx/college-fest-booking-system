@@ -28,17 +28,13 @@ const ManageUsersPage = () => {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const result = await adminService.getUsers({
-                page: currentPage,
-                size: 20,
-                search: searchQuery,
-                role: roleFilter !== 'all' ? roleFilter : undefined,
-                status: statusFilter !== 'all' ? statusFilter : undefined,
-            });
+            const result = await adminService.getAllUsers(currentPage, 20);
 
             if (result.success) {
-                setUsers(result.data.content || result.data);
-                setTotalPages(result.data.totalPages || 1);
+                const raw = result.data?.data || result.data;
+                const list = Array.isArray(raw) ? raw : (raw?.content || []);
+                setUsers(list);
+                setTotalPages(raw?.totalPages || 1);
             }
         } catch (error) {
             showError('Failed to load users');
@@ -62,12 +58,13 @@ const ManageUsersPage = () => {
     };
 
     const handleToggleStatus = async (userId, currentStatus) => {
-        const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
-
         try {
-            const result = await adminService.updateUserStatus(userId, newStatus);
+            const isActive = currentStatus === 'active' || currentStatus === true;
+            const result = isActive
+                ? await adminService.suspendUser(userId)
+                : await adminService.activateUser(userId);
             if (result.success) {
-                showSuccess(`User ${newStatus === 'active' ? 'activated' : 'deactivated'}`);
+                showSuccess(`User ${isActive ? 'deactivated' : 'activated'}`);
                 fetchUsers();
             } else {
                 showError(result.error || 'Failed to update status');
@@ -93,7 +90,7 @@ const ManageUsersPage = () => {
                     <SearchBar
                         placeholder="Search users..."
                         value={searchQuery}
-                        onSearch={setSearchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                     />
 
                     <div className="filter-group">

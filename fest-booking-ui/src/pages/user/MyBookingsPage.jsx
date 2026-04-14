@@ -9,7 +9,7 @@ import Button from '../../components/common/Button';
 import './MyBookingsPage.css';
 
 const MyBookingsPage = () => {
-    const { user } = useAuth();
+    useAuth(); // Ensure user is authenticated (route protection handles the rest)
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -22,8 +22,13 @@ const MyBookingsPage = () => {
     const fetchBookings = async () => {
         try {
             setLoading(true);
-            const response = await bookingService.getUserBookings();
-            setBookings(response.data || []);
+            const response = await bookingService.getMyBookings();
+            if (response.success) {
+                const raw = response.data?.data || response.data;
+                setBookings(Array.isArray(raw) ? raw : []);
+            } else {
+                setError('Failed to load bookings');
+            }
         } catch (err) {
             setError('Failed to load bookings');
             console.error(err);
@@ -33,22 +38,31 @@ const MyBookingsPage = () => {
     };
 
     const getStatusBadge = (status) => {
+        const s = (status || '').toString().toUpperCase();
         const variants = {
-            confirmed: 'success',
-            pending: 'warning',
-            cancelled: 'danger',
+            CONFIRMED: 'success',
+            PENDING_PAYMENT: 'warning',
+            PENDING: 'warning',
+            CANCELLED: 'danger',
+            EXPIRED: 'danger',
         };
-        return <Badge variant={variants[status] || 'default'}>{status}</Badge>;
+        const labels = {
+            CONFIRMED: 'Confirmed',
+            PENDING_PAYMENT: 'Pending Payment',
+            PENDING: 'Pending',
+            CANCELLED: 'Cancelled',
+            EXPIRED: 'Expired',
+        };
+        return <Badge variant={variants[s] || 'default'}>{labels[s] || status}</Badge>;
     };
 
+    // BookingResponseDTO has flat fields: eventName, numTickets, totalAmount, bookingStatus, bookedAt
+    // No nested event object — filter by bookedAt for past/upcoming
     const filteredBookings = bookings.filter((booking) => {
         if (filter === 'all') return true;
-        if (filter === 'upcoming') {
-            return new Date(booking.event?.date) >= new Date();
-        }
-        if (filter === 'past') {
-            return new Date(booking.event?.date) < new Date();
-        }
+        const booked = booking.bookedAt ? new Date(booking.bookedAt) : null;
+        if (filter === 'upcoming') return !booked || booked >= new Date();
+        if (filter === 'past') return booked && booked < new Date();
         return true;
     });
 
@@ -111,22 +125,22 @@ const MyBookingsPage = () => {
                         {filteredBookings.map((booking) => (
                             <div key={booking.id} className="booking-card">
                                 <div className="booking-event-info">
-                                    <h3>{booking.event?.name}</h3>
+                                    <h3>{booking.eventName || '—'}</h3>
                                     <p className="booking-date">
-                                        📅 {new Date(booking.event?.date).toLocaleDateString()}
+                                        📅 {booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString('en-IN') : '—'}
                                     </p>
-                                    <p className="booking-venue">
-                                        📍 {booking.event?.venue}
+                                    <p className="booking-reference">
+                                        🎫 Ref: {booking.bookingReference || booking.id}
                                     </p>
                                 </div>
                                 <div className="booking-details">
                                     <div className="booking-detail">
-                                        <span className="label">Seats:</span>
-                                        <span className="value">{booking.seatsBooked}</span>
+                                        <span className="label">Tickets:</span>
+                                        <span className="value">{booking.numTickets || '—'}</span>
                                     </div>
                                     <div className="booking-detail">
                                         <span className="label">Amount:</span>
-                                        <span className="value">₹{booking.totalAmount}</span>
+                                        <span className="value">₹{booking.totalAmount != null ? Number(booking.totalAmount).toLocaleString('en-IN') : '0'}</span>
                                     </div>
                                     <div className="booking-detail">
                                         <span className="label">Status:</span>

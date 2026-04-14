@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, ArrowRight, Sparkles } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import Input from '../../components/common/Input';
@@ -8,7 +8,6 @@ import LiquidEtherBackground from '../../components/backgrounds/LiquidEtherBackg
 
 const LoginPage = () => {
     const navigate = useNavigate();
-    const location = useLocation();
     const { login } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');

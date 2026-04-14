@@ -2,7 +2,14 @@ import React, { useEffect, useRef } from 'react';
 
 /**
  * LiquidEther - Ultra-Smooth Fluid Background
- * Uses CSS animations + lightweight canvas for maximum performance
+ * 
+ * Performance fix: removed ctx.filter = 'blur()' from the animation loop.
+ * Canvas 2D filter causes full CPU re-composition on EVERY frame, causing:
+ *   - Black flash when React re-renders (e.g. typing in inputs)
+ *   - High CPU usage / tab lag
+ * 
+ * Blur is now applied via CSS on the canvas element itself — GPU-composited,
+ * stable across React re-renders, and ~10x cheaper.
  */
 
 const LiquidEther = ({
@@ -19,23 +26,23 @@ const LiquidEther = ({
 
         const ctx = canvas.getContext('2d', {
             alpha: false,
-            desynchronized: true // Better performance
+            desynchronized: true,
         });
 
-        // Parse colors
+        // Parse hex color to rgb object
         const hexToRgb = (hex) => {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? {
                 r: parseInt(result[1], 16),
                 g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
+                b: parseInt(result[3], 16),
             } : { r: 255, g: 255, b: 255 };
         };
 
         const color1 = hexToRgb(colors[0]); // Red
-        const color2 = hexToRgb(colors[1]); // Orange
+        const color2 = hexToRgb(colors[1]); // Orange/Amber
 
-        // Optimized canvas size
+        // Resize canvas to match its CSS dimensions
         const resizeCanvas = () => {
             canvas.width = canvas.clientWidth;
             canvas.height = canvas.clientHeight;
@@ -43,13 +50,11 @@ const LiquidEther = ({
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Simplified autonomous blob
+        // Each blob drifts in a smooth Lissajous-like path
         class Blob {
             constructor(index) {
                 this.baseX = Math.random();
                 this.baseY = Math.random();
-                this.offsetX = 0;
-                this.offsetY = 0;
                 this.angle = Math.random() * Math.PI * 2;
                 this.speed = 0.3 + Math.random() * 0.4;
                 this.radius = 0.2 + Math.random() * 0.15;
@@ -58,7 +63,6 @@ const LiquidEther = ({
             }
 
             update(time) {
-                // Smooth circular motion
                 const t = time * 0.0001 * this.speed;
                 this.offsetX = Math.sin(t + this.phase) * 0.15;
                 this.offsetY = Math.cos(t + this.phase * 1.3) * 0.15;
@@ -84,30 +88,26 @@ const LiquidEther = ({
             }
         }
 
-        // Create fewer, larger blobs for smoother performance
+        // Create blobs
+        blobsRef.current = [];
         for (let i = 0; i < 8; i++) {
             blobsRef.current.push(new Blob(i));
         }
 
-        // Ultra-smooth animation with time-based updates
+        // Animation loop — NO ctx.filter here (moved to CSS below)
         const animate = (time) => {
-            const width = canvas.clientWidth;
-            const height = canvas.clientHeight;
+            const width = canvas.width;
+            const height = canvas.height;
 
-            // Background
+            // Dark navy background fill
             ctx.fillStyle = '#03071E';
             ctx.fillRect(0, 0, width, height);
 
-            // Lighter blur for better performance
-            ctx.filter = 'blur(20px)';
-
-            // Update and draw blobs
+            // Draw blobs without any Canvas filter
             blobsRef.current.forEach(blob => {
                 blob.update(time);
                 blob.draw(ctx, width, height, time);
             });
-
-            ctx.filter = 'none';
 
             animationRef.current = requestAnimationFrame(animate);
         };
@@ -119,44 +119,43 @@ const LiquidEther = ({
             if (animationRef.current) {
                 cancelAnimationFrame(animationRef.current);
             }
+            blobsRef.current = [];
         };
-    }, [colors, autoDemo]);
+    }, []); // Empty deps — colors are stable strings, no need to re-run on re-render
 
     return (
         <div className="w-full h-full relative">
-            {/* Canvas layer */}
+            {/*
+              * CSS blur on the canvas element — GPU-composited, never causes
+              * repaint/flash when React updates (inputs typing, state changes, etc.)
+              */}
             <canvas
                 ref={canvasRef}
                 className="w-full h-full absolute inset-0"
-                style={{ display: 'block' }}
+                style={{ display: 'block', filter: 'blur(28px)', willChange: 'transform' }}
             />
 
-            {/* CSS gradient overlay for extra depth */}
+            {/* Subtle CSS gradient overlay for extra depth */}
             <div
-                className="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none"
+                className="absolute inset-0 pointer-events-none"
                 style={{
+                    opacity: 0.25,
+                    mixBlendMode: 'overlay',
                     background: `
-            radial-gradient(circle at 20% 50%, rgba(208, 0, 0, 0.2) 0%, transparent 50%),
-            radial-gradient(circle at 80% 50%, rgba(250, 163, 7, 0.2) 0%, transparent 50%)
-          `,
-                    animation: 'gradientShift 20s ease-in-out infinite'
+                        radial-gradient(circle at 20% 50%, rgba(208, 0, 0, 0.25) 0%, transparent 55%),
+                        radial-gradient(circle at 80% 50%, rgba(250, 163, 7, 0.25) 0%, transparent 55%)
+                    `,
+                    animation: 'gradientShift 20s ease-in-out infinite',
                 }}
             />
 
-            {/* CSS keyframes */}
-            <style jsx>{`
-        @keyframes gradientShift {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(10%, -5%) scale(1.1);
-          }
-          66% {
-            transform: translate(-10%, 5%) scale(0.9);
-          }
-        }
-      `}</style>
+            <style>{`
+                @keyframes gradientShift {
+                    0%, 100% { transform: translate(0, 0) scale(1); }
+                    33%       { transform: translate(8%, -4%) scale(1.08); }
+                    66%       { transform: translate(-8%, 4%) scale(0.93); }
+                }
+            `}</style>
         </div>
     );
 };

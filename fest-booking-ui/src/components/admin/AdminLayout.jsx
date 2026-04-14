@@ -48,10 +48,10 @@ const AdminLayout = () => {
 
                             <div className="flex items-center gap-3 px-3 py-2 rounded-xl backdrop-blur-lg bg-white/10 border border-white/20">
                                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
-                                    {user?.name?.charAt(0).toUpperCase()}
+                                    {(user?.fullName || user?.name || 'A').charAt(0).toUpperCase()}
                                 </div>
                                 <div className="hidden sm:block">
-                                    <p className="text-white font-medium text-sm">{user?.name}</p>
+                                    <p className="text-white font-medium text-sm">{user?.fullName || user?.name}</p>
                                     <p className="text-white/60 text-xs">{user?.role}</p>
                                 </div>
                             </div>

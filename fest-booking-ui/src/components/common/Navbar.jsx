@@ -139,10 +139,10 @@ const Navbar = () => {
                                         className="flex items-center gap-2 px-4 py-2 rounded-xl bg-bg-card border border-border hover:border-teal-accent transition-all"
                                     >
                                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-accent to-primary-dark flex items-center justify-center text-white font-medium">
-                                            {user?.name?.charAt(0).toUpperCase()}
+                                            {(user?.fullName || user?.name || 'U').charAt(0).toUpperCase()}
                                         </div>
                                         <span className="text-text-primary text-sm font-medium hidden lg:block">
-                                            {user?.name}
+                                            {user?.fullName || user?.name}
                                         </span>
                                     </button>
 
@@ -150,7 +150,7 @@ const Navbar = () => {
                                     {isProfileMenuOpen && (
                                         <div className="absolute right-0 mt-2 w-56 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-slideDown">
                                             <div className="p-4 border-b border-border">
-                                                <p className="text-text-primary font-medium">{user?.name}</p>
+                                                <p className="text-text-primary font-medium">{user?.fullName || user?.name}</p>
                                                 <p className="text-text-muted text-sm">{user?.email}</p>
                                             </div>
                                             <div className="p-2">
@@ -246,7 +246,7 @@ const Navbar = () => {
                             <>
                                 <div className="pt-4 mt-4 border-t border-border">
                                     <div className="px-4 py-2">
-                                        <p className="text-text-primary font-medium">{user?.name}</p>
+                                        <p className="text-text-primary font-medium">{user?.fullName || user?.name}</p>
                                         <p className="text-text-muted text-sm">{user?.email}</p>
                                     </div>
                                     <Link

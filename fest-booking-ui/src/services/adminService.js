@@ -3,38 +3,60 @@ import { apiClient } from './api';
 const adminService = {
     // ========== EVENT MANAGEMENT ==========
 
-    // Create event
+    // Get all events (for admin management)
+    getEvents: async (filters = {}) => {
+        try {
+            const params = new URLSearchParams();
+            if (filters.search) params.append('search', filters.search);
+            if (filters.status) params.append('status', filters.status);
+            params.append('page', filters.page || 0);
+            params.append('size', filters.size || 20);
+            return await apiClient.get(`/api/events?${params.toString()}`);
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message || 'Failed to fetch events',
+            };
+        }
+    },
+
+    // Create event (EventController at /api/events)
     createEvent: async (eventData) => {
         try {
-            return await apiClient.post('/api/admin/events', eventData);
+            return await apiClient.post('/api/events', eventData);
         } catch (error) {
-            return {
-                success: false,
-                error: error.message || 'Event creation failed',
-            };
+            return { success: false, error: error.message || 'Event creation failed' };
         }
     },
 
-    // Update event
+    // Update event (EventController at /api/events/{id})
     updateEvent: async (eventId, eventData) => {
         try {
-            return await apiClient.put(`/api/admin/events/${eventId}`, eventData);
+            return await apiClient.put(`/api/events/${eventId}`, eventData);
         } catch (error) {
-            return {
-                success: false,
-                error: error.message || 'Event update failed',
-            };
+            return { success: false, error: error.message || 'Event update failed' };
         }
     },
 
-    // Delete event
+    // Delete event (EventController at /api/events/{id})
     deleteEvent: async (eventId) => {
         try {
-            return await apiClient.delete(`/api/admin/events/${eventId}`);
+            return await apiClient.delete(`/api/events/${eventId}`);
+        } catch (error) {
+            return { success: false, error: error.message || 'Event deletion failed' };
+        }
+    },
+
+    // Update event status (ADMIN only — uses the PATCH /api/events/:id/status endpoint)
+    updateEventStatus: async (eventId, status) => {
+        try {
+            return await apiClient.patch(`/api/events/${eventId}/status`, null, {
+                params: { status },
+            });
         } catch (error) {
             return {
                 success: false,
-                error: error.message || 'Event deletion failed',
+                error: error.message || 'Event status update failed',
             };
         }
     },
@@ -80,15 +102,12 @@ const adminService = {
 
     // ========== USER MANAGEMENT ==========
 
-    // Get all users
+    // Get all users (paginated)
     getAllUsers: async (page = 0, size = 50) => {
         try {
             return await apiClient.get(`/api/admin/users?page=${page}&size=${size}`);
         } catch (error) {
-            return {
-                success: false,
-                error: error.message || 'Failed to fetch users',
-            };
+            return { success: false, error: error.message || 'Failed to fetch users' };
         }
     },
 

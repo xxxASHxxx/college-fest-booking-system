@@ -37,7 +37,9 @@ public class DashboardService {
                 EventStatus.BOOKING_OPEN, LocalDateTime.now()).size();
 
         // Count confirmed bookings
-        long confirmedBookings = bookingRepository.countByEventIdAndBookingStatus(null, BookingStatus.CONFIRMED);
+        long confirmedBookings = bookingRepository.findAll().stream()
+                .filter(b -> b.getBookingStatus() == BookingStatus.CONFIRMED)
+                .count();
 
         return DashboardStatsResponse.builder()
                 .totalUsers(totalUsers)

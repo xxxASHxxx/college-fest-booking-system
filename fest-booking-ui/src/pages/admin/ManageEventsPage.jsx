@@ -38,8 +38,10 @@ const ManageEventsPage = () => {
             });
 
             if (result.success) {
-                setEvents(result.data.content || result.data);
-                setTotalPages(result.data.totalPages || 1);
+                const raw = result.data?.data || result.data;
+                const list = Array.isArray(raw) ? raw : (raw?.content || []);
+                setEvents(list);
+                setTotalPages(raw?.totalPages || 1);
             }
         } catch (error) {
             showError('Failed to load events');
@@ -67,12 +69,14 @@ const ManageEventsPage = () => {
     };
 
     const handleToggleStatus = async (eventId, currentStatus) => {
-        const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+        const s = (currentStatus || '').toString().toUpperCase();
+        const isCurrentlyActive = s === 'ACTIVE' || s === 'BOOKING_OPEN' || s === 'PUBLISHED';
+        const newStatus = isCurrentlyActive ? 'INACTIVE' : 'ACTIVE';
 
         try {
             const result = await adminService.updateEventStatus(eventId, newStatus);
             if (result.success) {
-                showSuccess(`Event ${newStatus === 'active' ? 'activated' : 'deactivated'}`);
+                showSuccess(`Event ${newStatus === 'ACTIVE' ? 'activated' : 'deactivated'}`);
                 fetchEvents();
             } else {
                 showError(result.error || 'Failed to update status');
@@ -104,7 +108,7 @@ const ManageEventsPage = () => {
                     <SearchBar
                         placeholder="Search events..."
                         value={searchQuery}
-                        onSearch={setSearchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                     />
 
                     <div className="filter-group">

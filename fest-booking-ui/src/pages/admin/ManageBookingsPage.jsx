@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import bookingService from '../../services/bookingService';
+import adminService from '../../services/adminService';
 import Badge from '../../components/common/Badge';
 import SearchBar from '../../components/common/SearchBar';
 import Pagination from '../../components/common/Pagination';
@@ -23,12 +23,16 @@ const ManageBookingsPage = () => {
     const fetchBookings = async () => {
         try {
             setLoading(true);
-            const response = await bookingService.getAllBookings({
+            const response = await adminService.getAllBookings({
                 page: currentPage,
                 status: filter !== 'all' ? filter : undefined,
             });
-            setBookings(response.data.content || response.data || []);
-            setTotalPages(response.data.totalPages || 1);
+            if (response.success) {
+                const raw = response.data?.data || response.data;
+                const list = Array.isArray(raw) ? raw : (raw?.content || []);
+                setBookings(list);
+                setTotalPages(raw?.totalPages || 1);
+            }
         } catch (err) {
             console.error('Failed to load bookings:', err);
         } finally {
@@ -38,7 +42,7 @@ const ManageBookingsPage = () => {
 
     const handleStatusChange = async (bookingId, newStatus) => {
         try {
-            await bookingService.updateBookingStatus(bookingId, newStatus);
+            await adminService.updateBookingStatus(bookingId, newStatus);
             fetchBookings();
         } catch (err) {
             console.error('Failed to update booking status:', err);
@@ -46,18 +50,28 @@ const ManageBookingsPage = () => {
     };
 
     const getStatusBadge = (status) => {
+        const s = (status || '').toString().toUpperCase();
         const variants = {
-            confirmed: 'success',
-            pending: 'warning',
-            cancelled: 'danger',
+            CONFIRMED: 'success',
+            PENDING_PAYMENT: 'warning',
+            PENDING: 'warning',
+            CANCELLED: 'danger',
+            EXPIRED: 'danger',
         };
-        return <Badge variant={variants[status] || 'default'}>{status}</Badge>;
+        const labels = {
+            CONFIRMED: 'Confirmed',
+            PENDING_PAYMENT: 'Pending Payment',
+            PENDING: 'Pending',
+            CANCELLED: 'Cancelled',
+            EXPIRED: 'Expired',
+        };
+        return <Badge variant={variants[s] || 'default'}>{labels[s] || status}</Badge>;
     };
 
     const filteredBookings = bookings.filter((booking) =>
-        booking.event?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        booking.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        booking.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+        (booking.eventName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (booking.userName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (booking.userEmail || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const tabs = [
@@ -121,27 +135,27 @@ const ManageBookingsPage = () => {
                             <tbody>
                                 {filteredBookings.map((booking) => (
                                     <tr key={booking.id}>
-                                        <td>#{booking.id}</td>
-                                        <td>{booking.event?.name}</td>
+                                        <td>#{booking.bookingReference || booking.id}</td>
+                                        <td>{booking.eventName || '—'}</td>
                                         <td>
                                             <div className="user-info">
-                                                <div>{booking.user?.name}</div>
-                                                <div className="user-email">{booking.user?.email}</div>
+                                                <div>{booking.userName || '—'}</div>
+                                                <div className="user-email">{booking.userEmail || '—'}</div>
                                             </div>
                                         </td>
-                                        <td>{booking.seatsBooked}</td>
-                                        <td>₹{booking.totalAmount}</td>
-                                        <td>{new Date(booking.bookingDate).toLocaleDateString()}</td>
+                                        <td>{booking.numTickets || '—'}</td>
+                                        <td>₹{booking.totalAmount != null ? Number(booking.totalAmount).toLocaleString('en-IN') : '0'}</td>
+                                        <td>{booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString('en-IN') : '—'}</td>
                                         <td>{getStatusBadge(booking.bookingStatus)}</td>
                                         <td>
                                             <select
-                                                value={booking.bookingStatus}
+                                                value={booking.bookingStatus || 'PENDING_PAYMENT'}
                                                 onChange={(e) => handleStatusChange(booking.id, e.target.value)}
                                                 className="status-select"
                                             >
-                                                <option value="pending">Pending</option>
-                                                <option value="confirmed">Confirmed</option>
-                                                <option value="cancelled">Cancelled</option>
+                                                <option value="PENDING_PAYMENT">Pending</option>
+                                                <option value="CONFIRMED">Confirmed</option>
+                                                <option value="CANCELLED">Cancelled</option>
                                             </select>
                                         </td>
                                     </tr>
